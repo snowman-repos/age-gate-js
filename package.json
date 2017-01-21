@@ -1,0 +1,29 @@
+{
+  "name": "age-gate-js",
+  "version": "0.0.0",
+  "description": "A javascript module for blocking page content until a user's age can be verified to meed a specific criterion.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darryl-snow/age-gate-js.git"
+  },
+  "keywords": [
+    "age",
+    "verification",
+    "verify",
+    "gate",
+    "gateway"
+  ],
+  "author": "Darryl Snow",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/darryl-snow/age-gate-js/issues"
+  },
+  "homepage": "https://github.com/darryl-snow/age-gate-js#readme",
+  "devDependencies": {
+    "webpack": "^1.14.0"
+  }
+}
