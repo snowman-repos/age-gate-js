@@ -1,7 +1,10 @@
 import styles from "./index.css";
 
-let curtain = `
-  <div class="${styles.agCurtain}"></div>
-`;
+let ageGate = `<div id="age-gate"></div>`;
+document.write(ageGate);
 
-document.write(curtain);
+// let curtain = `
+//   <div class="${styles.agCurtain}"></div>
+// `;
+//
+// document.write(curtain);
