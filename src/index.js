@@ -1,10 +1,10 @@
-import styles from "./index.css";
+import Modal from "./modal/modal";
 
-let ageGate = `<div id="age-gate"></div>`;
-document.write(ageGate);
+let ageGate = document.createElement("div");
+ageGate.id = "ag-root";
 
-// let curtain = `
-//   <div class="${styles.agCurtain}"></div>
-// `;
-//
-// document.write(curtain);
+document.addEventListener("DOMContentLoaded", (event) => {
+   document.body.appendChild(ageGate);
+   let modal = new Modal(ageGate);
+   modal.show();
+});
