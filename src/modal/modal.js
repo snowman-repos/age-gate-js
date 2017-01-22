@@ -5,6 +5,7 @@ export default class Modal {
   constructor(parent) {
 
     this.el = {
+      body: document.body,
       curtain: null,
       dialog: null,
       parent: parent
@@ -33,6 +34,19 @@ export default class Modal {
     this.el.curtain.classList.remove(styles.agCurtainIsShown);
     this.el.dialog.classList.remove(styles.agDialogIsShown);
     this.state.shown = false;
+    this.toggleBodyLock();
+
+  }
+
+  toggleBodyLock() {
+
+    let body = this.el.body;
+
+    if(body.classList.contains(styles.agBodyIsLocked)) {
+      this.el.body.classList.remove(styles.agBodyIsLocked);
+    } else {
+      this.el.body.classList.add(styles.agBodyIsLocked);
+    }
 
   }
 
@@ -41,6 +55,7 @@ export default class Modal {
     this.el.curtain.classList.add(styles.agCurtainIsShown);
     this.el.dialog.classList.add(styles.agDialogIsShown);
     this.state.shown = true;
+    this.toggleBodyLock();
 
   }
 
