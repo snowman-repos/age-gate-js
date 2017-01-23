@@ -22,19 +22,47 @@ export default class Modal {
 
   createElement(element) {
 
+    if(element != "curtain" && element != "dialog") return false;
+    if(this.el.curtain != null && element == "curtain") return false;
+    if(this.el.dialog != null && element == "dialog") return false;
+
     let el = document.createElement("div");
+    let zindex = this.getHighestZIndex();
     el.id = "ag-" + element;
     el.classList.add(styles["ag" + element.charAt(0).toUpperCase() + element.slice(1)]);
+    el.style.zIndex = zindex + 1;
     return(this.el.parent.appendChild(el));
+
+  }
+
+  getHighestZIndex(el) {
+
+    let elements = document.getElementsByTagName(el);
+    let highest = 0;
+
+    for(let i = 0; i < elements.length; i++) {
+
+      let zindex = document.defaultView.getComputedStyle(elements[i], null).getPropertyValue("z-index");
+
+      if(zindex > highest && zindex != 'auto') {
+        highest = zindex
+      }
+
+    }
+
+    return highest;
 
   }
 
   hide() {
 
+    if(!this.state.shown) return false;
+
     this.el.curtain.classList.remove(styles.agCurtainIsShown);
     this.el.dialog.classList.remove(styles.agDialogIsShown);
     this.state.shown = false;
     this.toggleBodyLock();
+    return true;
 
   }
 
@@ -48,14 +76,19 @@ export default class Modal {
       this.el.body.classList.add(styles.agBodyIsLocked);
     }
 
+    return true;
+
   }
 
   show() {
+
+    if(this.state.shown) return false;
 
     this.el.curtain.classList.add(styles.agCurtainIsShown);
     this.el.dialog.classList.add(styles.agDialogIsShown);
     this.state.shown = true;
     this.toggleBodyLock();
+    return true;
 
   }
 
