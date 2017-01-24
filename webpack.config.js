@@ -1,4 +1,5 @@
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 var PROD = (process.env.NODE_ENV === "production");
 var webpack = require("webpack");
 
@@ -26,7 +27,17 @@ module.exports = {
     ]
   },
   plugins: [
-    new ExtractTextPlugin("index.css"),
+    new ExtractTextPlugin("index.min.css"),
+    new OptimizeCssAssetsPlugin({
+      assetNameRegExp: /\.min\.css$/g,
+      cssProcessor: require("cssnano"),
+      cssProcessorOptions: {
+        discardComments: {
+          removeAll: true
+        }
+      },
+      canPrint: true
+    }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
