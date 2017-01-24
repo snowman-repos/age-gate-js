@@ -10,6 +10,13 @@ module.exports = {
     filename: PROD ? "index.min.js" : "index.js"
   },
   module: {
+    preLoaders: [
+      {
+        test: /\.js$/,
+        exclude: [/node_modules/, /\.test\.js$/],
+        loader: "jshint"
+      }
+    ],
     loaders: [
       {
         test: /\.css$/,
