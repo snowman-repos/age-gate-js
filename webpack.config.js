@@ -1,10 +1,12 @@
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var PROD = (process.env.NODE_ENV === "production");
+var webpack = require("webpack");
 
 module.exports = {
   entry: "./src/index.js",
   output: {
     path: "build",
-    filename: "index.js"
+    filename: PROD ? "index.min.js" : "index.js"
   },
   module: {
     loaders: [
@@ -24,6 +26,11 @@ module.exports = {
     ]
   },
   plugins: [
-    new ExtractTextPlugin("index.css")
+    new ExtractTextPlugin("index.css"),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    })
   ]
 }
