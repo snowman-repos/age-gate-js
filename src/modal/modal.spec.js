@@ -1,4 +1,4 @@
-import Modal from "../src/modal/modal";
+import Modal from "./modal";
 
 describe("Age Gate", () => {
 
