@@ -22,6 +22,7 @@ describe("Age Gate", () => {
       body = document.body;
 
       done();
+
     });
 
   });
@@ -35,6 +36,7 @@ describe("Age Gate", () => {
   afterEach(() => {
 
     ageGate.innerHTML = "";
+    modal = null;
 
   });
 
@@ -87,7 +89,8 @@ describe("Age Gate", () => {
 
   });
 
-  it("Should stretch the curtain element to the entire viewport width, minus the scrollbar", () => {
+  it(`Should stretch the curtain element to the entire viewport width,
+     minus the scrollbar`, () => {
 
     let viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
     let viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
@@ -133,14 +136,28 @@ describe("Age Gate", () => {
 
   });
 
-  it("Should add a class to the body element to prevent scrolling", () => {
+  it(`Should be able to toggle the control classes on the body,
+    and the curtain and dialog elements`, () => {
 
-    expect(body.className.indexOf("ag-body-is-locked")).toBe(-1);
+    let curtain = document.getElementById("ag-curtain");
+    let dialog = document.getElementById("ag-dialog");
 
-    modal.toggleBodyLock();
+    expect(body.className.indexOf("is-locked")).toEqual(-1);
+    expect(curtain.className.indexOf("is-shown")).toEqual(-1);
+    expect(dialog.className.indexOf("is-shown")).toEqual(-1);
 
-    expect(body.className.indexOf("ag-body-is-locked")).not.toBe(-1);
+    modal.toggleClasses();
 
-  });
+    expect(body.className.indexOf("is-locked")).not.toEqual(-1);
+    expect(curtain.className.indexOf("is-shown")).not.toEqual(-1);
+    expect(dialog.className.indexOf("is-shown")).not.toEqual(-1);
+
+    modal.toggleClasses();
+
+    expect(body.className.indexOf("is-locked")).toEqual(-1);
+    expect(curtain.className.indexOf("is-shown")).toEqual(-1);
+    expect(dialog.className.indexOf("is-shown")).toEqual(-1);
+
+  })
 
 });
