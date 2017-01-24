@@ -35,14 +35,15 @@ export default class Modal {
 
   }
 
-  getHighestZIndex(el) {
+  getHighestZIndex() {
 
-    let elements = document.getElementsByTagName(el);
+    let elements = document.getElementsByTagName("*");
     let highest = 0;
 
     for(let i = 0; i < elements.length; i++) {
 
-      let zindex = document.defaultView.getComputedStyle(elements[i], null).getPropertyValue("z-index");
+      let computedStyle = document.defaultView.getComputedStyle(elements[i], null).getPropertyValue("z-index");
+      let zindex = Number(!isNaN(computedStyle) || elements[i].style.zIndex == "" ? 0 : elements[i].style.zIndex);
 
       if(zindex > highest && zindex != 'auto') {
         highest = zindex

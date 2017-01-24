@@ -6,15 +6,21 @@ describe("Age Gate", () => {
 
   beforeAll((done) => {
 
-    console.log(typeof window.callPhantom === 'function');
-
     ageGate = document.createElement("div");
     ageGate.id = "ag-root";
 
     document.addEventListener("DOMContentLoaded", (event) => {
+
+      document.body.innerHTML = `
+        <div class="container" style="z-index: 10;">
+          <h1>Hello World</h1>
+          <p>This is a test</p>
+        </div>
+      `;
+
       document.body.appendChild(ageGate);
-      modal = new Modal(ageGate);
       body = document.body;
+
       done();
     });
 
@@ -48,23 +54,36 @@ describe("Age Gate", () => {
 
   });
 
+  it("Should find the highest z-index on the page", () => {
+
+
+    expect(modal.getHighestZIndex()).toEqual(12);
+    ageGate.innerHTML = "";
+    expect(modal.getHighestZIndex()).toEqual(10);
+    let el = document.createElement("div");
+    el.style.zIndex = 5;
+    document.body.appendChild(el);
+    expect(modal.getHighestZIndex()).toEqual(10);
+    el.style.zIndex = 100;
+    expect(modal.getHighestZIndex()).toEqual(100);
+    el.parentElement.removeChild(el);
+    modal = new Modal(ageGate);
+    expect(modal.getHighestZIndex()).toEqual(12);
+
+  });
+
   it("Should place the curtain element above anything else on the page", () => {
 
-    //get the highest z-index - 1, check it's the curtain, check it's not 0
-    //get a list of all z-indexes on the page that aren't auto
-    //if the list length is more than 2, check that the 2nd from last is curtain
-    //otherwise check that the 1st is curtain
-
-    expect(true).toBe(true);
+    let curtain = document.getElementById("ag-curtain");
+    expect(Number(curtain.style.zIndex)).toEqual(modal.getHighestZIndex() - 1);
 
   });
 
   it("Should place the dialog element above the curtain", () => {
 
-    //get the highest z-index, check it's the dialog
-    //check that the dialog zindex is higher than the curtain zindex
-
-    expect(true).toBe(true);
+    let curtain = document.getElementById("ag-curtain");
+    let dialog = document.getElementById("ag-dialog");
+    expect(dialog.style.zIndex).toBeGreaterThan(curtain.style.zIndex);
 
   });
 
