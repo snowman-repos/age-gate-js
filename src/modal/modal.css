@@ -5,7 +5,8 @@
 }
 
 .ag-curtain {
-  background: rgba(0,0,0,0.7);
+  background-color: #333333;
+  background-color: rgba(0,0,0,0.7);
   bottom: 0;
   box-sizing: border-box;
   height: 100%;
@@ -25,8 +26,10 @@
 }
 
 .ag-dialog {
-  background: rgba(245,245,245,1);
+  background-color: #F5F5F5;
+  background-color: rgba(245,245,245,1);
   border-radius: 0.3em;
+  box-shadow: 0 5px 10px #333333;
   box-shadow: 0 5px 10px rgba(0,0,0,0.7);
   box-sizing: border-box;
   height: 80vh;
