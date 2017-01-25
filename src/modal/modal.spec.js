@@ -244,4 +244,69 @@ describe("Age Gate", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/5
+  it(`Should give the curtain a tabindex of -1 so that it
+     cannot be focused`, () => {
+
+    expect(Number(curtain.getAttribute('tabindex'))).toEqual(-1);
+
+  });
+
+  // https://github.com/darryl-snow/age-gate-js/issues/6
+  it(`Should give the dialog a tabindex of -1 so that it
+     cannot be focused`, () => {
+
+    expect(Number(dialog.getAttribute('tabindex'))).toEqual(-1);
+
+  });
+
+  it(`Should be able to toggle the aria-hidden attribute on the curtain
+     and the dialog elements`, () => {
+
+    // Expect it to be true because the dialog is hiden by default
+    expect(curtain.getAttribute("aria-hidden")).toBe("true");
+    expect(dialog.getAttribute("aria-hidden")).toBe("true");
+
+    modal.state.shown = true;
+    modal.toggleAriaHidden();
+
+    expect(curtain.getAttribute("aria-hidden")).toBe("false");
+    expect(dialog.getAttribute("aria-hidden")).toBe("false");
+
+  });
+
+  // https://github.com/darryl-snow/age-gate-js/issues/5
+  // https://github.com/darryl-snow/age-gate-js/issues/6
+  it(`Should set aria-hidden='true' when the curtain is hidden and
+   aria-hidden='false' when the curtain is shown`, () => {
+
+    // Expect it to be true because the curtain is hiden by default
+    expect(curtain.getAttribute('aria-hidden')).toBe("true");
+
+    modal.show();
+
+    expect(curtain.getAttribute('aria-hidden')).toBe("false");
+
+    modal.hide();
+
+    expect(curtain.getAttribute('aria-hidden')).toBe("true");
+
+  });
+
+  it(`Should set aria-hidden='true' when the dialog is hidden and
+   aria-hidden='false' when the dialog is shown`, () => {
+
+    // Expect it to be true because the dialog is hiden by default
+    expect(dialog.getAttribute('aria-hidden')).toBe("true");
+
+    modal.show();
+
+    expect(dialog.getAttribute('aria-hidden')).toBe("false");
+
+    modal.hide();
+
+    expect(dialog.getAttribute('aria-hidden')).toBe("true");
+
+  });
+
 });

@@ -64,11 +64,14 @@ export default class Modal {
     // newly created elements may be placed on top
     let zindex = this.getHighestZIndex();
 
-    // Create the element, add ID, add class, and set z-index
+    // Create the element, add ID, add class, and set z-index, tabindex,
+    // and aria-hidden
     let el = document.createElement("div");
     el.id = "ag-" + element;
     el.classList.add(styles["ag" + element.charAt(0).toUpperCase() + element.slice(1)]);
     el.style.zIndex = zindex + 1;
+    el.setAttribute("tabindex", -1);
+    el.setAttribute("aria-hidden", "true");
 
     // Append the element to the container
     return(this.el.parent.appendChild(el));
@@ -115,8 +118,10 @@ export default class Modal {
       return false;
     }
 
-    this.toggleClasses();
     this.state.shown = false;
+
+    this.toggleClasses();
+    this.toggleAriaHidden();
 
     return true;
 
@@ -134,8 +139,10 @@ export default class Modal {
       return false;
     }
 
-    this.toggleClasses();
     this.state.shown = true;
+
+    this.toggleClasses();
+    this.toggleAriaHidden();
 
     return true;
 
@@ -155,6 +162,13 @@ export default class Modal {
     this.el.dialog.classList.toggle(styles.agDialogIsShown);
 
     return true;
+
+  }
+
+  toggleAriaHidden() {
+
+    this.el.curtain.setAttribute("aria-hidden", !this.state.shown);
+    this.el.dialog.setAttribute("aria-hidden", !this.state.shown);
 
   }
 
