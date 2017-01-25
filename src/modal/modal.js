@@ -46,13 +46,19 @@ export default class Modal {
   createElement(element) {
 
     // Do not create other elements
-    if(element != "curtain" && element != "dialog") return false;
+    if(element !== "curtain" && element !== "dialog") {
+      return false;
+    }
 
     // Do not create the curtain if it already exists
-    if(this.el.curtain != null && element == "curtain") return false;
+    if(this.el.curtain !== null && element === "curtain") {
+      return false;
+    }
 
     // Do not create the dialog if it already exists
-    if(this.el.dialog != null && element == "dialog") return false;
+    if(this.el.dialog !== null && element === "dialog") {
+      return false;
+    }
 
     // Get the current highest-level element on the page so that
     // newly created elements may be placed on top
@@ -84,11 +90,11 @@ export default class Modal {
 
       // Get the element's z-index value
       let computedStyle = document.defaultView.getComputedStyle(elements[i], null).getPropertyValue("z-index");
-      let zindex = Number(!isNaN(computedStyle) || elements[i].style.zIndex == "" ? 0 : elements[i].style.zIndex);
+      let zindex = Number(!isNaN(computedStyle) || elements[i].style.zIndex === "" ? 0 : elements[i].style.zIndex);
 
       // Save the z-index value if it's the highest so far
-      if(zindex > highest && zindex != 'auto') {
-        highest = zindex
+      if(zindex > highest && zindex !== 'auto') {
+        highest = zindex;
       }
 
     }
@@ -105,7 +111,9 @@ export default class Modal {
   hide() {
 
     // Don't run if the modal is already hidden
-    if(!this.state.shown) return false;
+    if(!this.state.shown) {
+      return false;
+    }
 
     this.toggleClasses();
     this.state.shown = false;
@@ -122,7 +130,9 @@ export default class Modal {
   show() {
 
     // Don't run if the modal is already shown
-    if(this.state.shown) return false;
+    if(this.state.shown) {
+      return false;
+    }
 
     this.toggleClasses();
     this.state.shown = true;

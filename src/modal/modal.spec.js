@@ -9,7 +9,7 @@ describe("Age Gate", () => {
     ageGate = document.createElement("div");
     ageGate.id = "ag-root";
 
-    document.addEventListener("DOMContentLoaded", (event) => {
+    document.addEventListener("DOMContentLoaded", () => {
 
       document.body.innerHTML = `
         <div class="container" style="z-index: 10;">
@@ -93,7 +93,7 @@ describe("Age Gate", () => {
      minus the scrollbar`, () => {
 
     let viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    let viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    // let viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     let curtain = document.querySelectorAll("#ag-curtain");
     let curtainWidth = window.getComputedStyle(curtain[0], null).width;
 
@@ -158,6 +158,6 @@ describe("Age Gate", () => {
     expect(curtain.className.indexOf("is-shown")).toEqual(-1);
     expect(dialog.className.indexOf("is-shown")).toEqual(-1);
 
-  })
+  });
 
 });
