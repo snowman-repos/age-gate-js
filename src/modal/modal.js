@@ -45,6 +45,8 @@ export default class Modal {
    */
   createElement(element) {
 
+    // TODO: break up this function
+
     // Do not create other elements
     if(element !== "curtain" && element !== "dialog") {
       return false;
@@ -67,11 +69,15 @@ export default class Modal {
     // Create the element, add ID, add class, and set z-index, tabindex,
     // and aria-hidden
     let el = document.createElement("div");
-    el.id = "ag-" + element;
+    el.id = "ag-modal-" + element;
     el.classList.add(styles["ag" + element.charAt(0).toUpperCase() + element.slice(1)]);
     el.style.zIndex = zindex + 1;
     el.setAttribute("tabindex", -1);
     el.setAttribute("aria-hidden", "true");
+
+    if(element === "dialog") {
+      el.setAttribute("role", "dialog");
+    }
 
     // Append the element to the container
     return(this.el.parent.appendChild(el));
@@ -157,9 +163,9 @@ export default class Modal {
    */
   toggleClasses() {
 
-    this.el.body.classList.toggle(styles.agBodyIsLocked);
-    this.el.curtain.classList.toggle(styles.agCurtainIsShown);
-    this.el.dialog.classList.toggle(styles.agDialogIsShown);
+    this.el.body.classList.toggle(styles.sAgBodyIsLocked);
+    this.el.curtain.classList.toggle(styles.sAgModalCurtainIsShown);
+    this.el.dialog.classList.toggle(styles.sAgModalDialogIsShown);
 
     return true;
 

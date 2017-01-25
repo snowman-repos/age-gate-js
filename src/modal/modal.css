@@ -1,38 +1,68 @@
-.ag-body-is-locked {
+/**
+ * @name AG Body Is Locked
+ * @description This is a state class that restricts scrolling on the body.
+ */
+.s-ag-body-is-locked {
   height: 100%;
   overflow: hidden;
   width: 100%;
 }
 
-.ag-curtain {
+/**
+ * @name AG Modal Curtain
+ * @description The modal curtain object should cover the whole viewport to
+ * restrict access to the page content. It should be above everything else on
+ * the page except for the modal dialog. It should be hidden by default.
+ * @state .s-ag-modal-curtain-is-shown - show the modal curtain
+ * @markup
+ * <div aria-hidden="true" class="ag-modal-curtain" id="ag-modal-curtain" style="z-index: 1;" tabindex="-1"></div>
+ */
+.ag-modal-curtain {
   background-color: #333333;
   background-color: rgba(0,0,0,0.7);
   bottom: 0;
   box-sizing: border-box;
-  height: 100%;
+  height: 0;
   left: 0;
   opacity: 0;
   pointer-events: none;
   position: fixed;
   right: 0;
   top: 0;
+  transform: translateY(50%);
+  transition: 0.3s all ease-in-out;
   width: 100%;
   z-index: 1000;
 }
 
-.ag-curtain-is-shown {
+/**
+ * @name AG Modal Curtain Is Shown
+ * @description This is a state class that shows the modal curtain.
+ */
+.s-ag-modal-curtain-is-shown {
+  height: 100%;
   opacity: 1;
   pointer-events: auto;
+  transform: translateY(0);
 }
 
-.ag-dialog {
+/**
+ * @name AG Modal Dialog
+ * @description The modal dialog object should cover the whole viewport to
+ * restrict access to the page content. It should be above everything else on
+ * the page except for the modal dialog. It should be hidden by default.
+ * @state .s-ag-modal-dialog-is-shown - show the modal dialog
+ * @markup
+ * <div aria-describedby="description" aria-hidden="true" aria-labelledby="title" class="ag-modal-dialog" id="ag-modal-dialog" style="z-index: 1;" tabindex="-1"></div>
+ */
+.ag-modal-dialog {
   background-color: #F5F5F5;
   background-color: rgba(245,245,245,1);
   border-radius: 0.3em;
   box-shadow: 0 5px 10px #333333;
   box-shadow: 0 5px 10px rgba(0,0,0,0.7);
   box-sizing: border-box;
-  height: 80vh;
+  height: 0;
   left: 50%;
   opacity: 0;
   overflow-y: scroll;
@@ -45,7 +75,12 @@
   z-index: 2000;
 }
 
-.ag-dialog-is-shown {
+/**
+ * @name AG Modal Dialog Is Shown
+ * @description This is a state class that shows the modal dialog.
+ */
+.s-ag-modal-dialog-is-shown {
+  height: 80vh;
   opacity: 1;
   pointer-events: auto;
   transform: translateX(-50%) translateY(-50%);

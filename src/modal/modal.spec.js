@@ -40,8 +40,8 @@ describe("Age Gate", () => {
   beforeEach(() => {
 
     modal = new Modal(ageGate);
-    curtain = document.getElementById("ag-curtain");
-    dialog = document.getElementById("ag-dialog");
+    curtain = document.getElementById("ag-modal-curtain");
+    dialog = document.getElementById("ag-modal-dialog");
 
   });
 
@@ -158,7 +158,7 @@ describe("Age Gate", () => {
     // It should **not** be able to append such an element
     let testPhrase = "testing123";
     result = modal.createElement(testPhrase);
-    el = document.querySelectorAll("#ag-" + testPhrase);
+    el = document.querySelectorAll("#ag-modal-" + testPhrase);
     expect(el.length).toBe(0);
     expect(result).toBe(false);
 
@@ -167,7 +167,7 @@ describe("Age Gate", () => {
     // It should be able to append a curtain element
     modal.el.curtain = null;
     result = modal.createElement("curtain");
-    curtain = document.querySelectorAll("#ag-curtain");
+    curtain = document.querySelectorAll("#ag-modal-curtain");
     expect(curtain.length).not.toBe(0);
     expect(result).not.toBe(false);
 
@@ -176,7 +176,7 @@ describe("Age Gate", () => {
     // It should be able to append a dialog element
     modal.el.dialog = null;
     result = modal.createElement("dialog");
-    dialog = document.querySelectorAll("#ag-dialog");
+    dialog = document.querySelectorAll("#ag-modal-dialog");
     expect(dialog.length).not.toBe(0);
     expect(result).not.toBe(false);
 
@@ -306,6 +306,12 @@ describe("Age Gate", () => {
     modal.hide();
 
     expect(dialog.getAttribute('aria-hidden')).toBe("true");
+
+  });
+
+  it("Should give the dialog a role='dialog' attribute", () => {
+
+    expect(dialog.getAttribute("role")).toBe("dialog");
 
   });
 
