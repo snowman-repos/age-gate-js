@@ -1,5 +1,13 @@
 import styles from "./modal.css";
 
+// Keep this outside of the main class so that it remains private and
+// inaccessible
+let allowedMainElements = [
+  "content",
+  "curtain",
+  "dialog"
+];
+
 /**
  * Class to create and control a modal window for the age gate; the
  * modal is not shown by default.
@@ -8,101 +16,130 @@ import styles from "./modal.css";
  */
 export default class Modal {
 
-  constructor(parent) {
+  constructor(config) {
 
     // Save DOM references
     this.el = {
       body: document.body,
-      content: null,
-      curtain: null,
-      dialog: null,
-      parent: parent,
+      mainElements: this.createMainElements(),
       previouslyFocused: null
     };
-
-    // There are 2 parts to the modal:
-    // - content: a container for the modal content
-    // - curtain: a semi-opaque layer that covers the entire screen
-    // - dialog: a dialog box that contains the content
-    this.el.curtain = this.createElement("curtain");
-    this.el.dialog = this.createElement("dialog");
-    this.el.content = this.createElement("content");
 
     // State object
     this.state = {
       shown: false
     };
 
+    // If the instance has been initialised with a wrapper element specified
+    // in a config object, then append the main elements to it, otherwise
+    // append the main elements to the body directly
+    if(config) {
+      this.appendTo(config.wrapper);
+    } else {
+      this.appendTo(document.body);
+    }
+
   }
 
   /**
-   * Creates one of the modal component elements, which can be
-   * either curtain or dialog. The function will not create either
-   * of those elements twice and will not create elements by any
-   * other name. The dialog and curtain elements should be the top-
-   * most and second-top-most elements on the page.
-   * @param {string} The name of the element to be created, i.e.
-   *                 "curtain" or "dialog".
-   * @return {object|boolean} False if the element can't be created,
-   *                          otherwise a reference to the newly
-   *                          created element.
+   * Append the main elements to a wrapper element.
+   * @param {object} The HTML Node to which main elements should be appended.
+   * @return {object} The HTML Node to which main elements have been appended.
    */
-  createElement(element) {
+  appendTo(parent) {
 
-    // TODO: break up this function
+    if(!parent) {
+      return null;
+    }
 
-    // Do not create other elements
-    if(element !== "content" && element !== "curtain" && element !== "dialog") {
+    parent.appendChild(this.el.mainElements.curtain);
+    parent.appendChild(this.el.mainElements.dialog);
+    this.el.mainElements.dialog.appendChild(this.el.mainElements.content);
+
+    return parent;
+
+  }
+
+  /**
+   * Create one of the main elements based on a config object.
+   * @param {object} The set of options for creating the element.
+   * @return {object} The HTML node for the newly created object.
+   */
+  createMainElement(config) {
+
+    if(this.mainElementIsNotAllowed(config.name) || this.mainElementsAlreadyExist()) {
       return false;
     }
 
-    // Do not create the content if it already exists
-    if(this.el.content !== null && element === "content") {
+    let el = document.createElement(config.tagName);
+    el.setAttribute("aria-hidden", config.ariaHidden);
+    el.classList.add(styles[config.className]);
+    el.id = config.id;
+    el.setAttribute("role", config.role);
+    el.setAttribute("tabindex", config.tabindex);
+    el.style.zIndex = config.zindex;
+
+    return(el);
+
+  }
+
+  /**
+   *
+   */
+  createMainElements() {
+
+    if(this.mainElementsAlreadyExist()) {
       return false;
     }
 
-    // Do not create the curtain if it already exists
-    if(this.el.curtain !== null && element === "curtain") {
-      return false;
-    }
+    // Modal elements must be placed above anything else on the page,
+    // so find out what the highest element is
+    let highestZIndex = this.getHighestZIndex();
 
-    // Do not create the dialog if it already exists
-    if(this.el.dialog !== null && element === "dialog") {
-      return false;
-    }
+    // There are 3 main parts to the modal:
+    // - content: a container for the modal content
+    // - curtain: a semi-opaque layer that covers the entire screen
+    // - dialog: a dialog box that contains the content
+    let content, curtain, dialog = null;
 
-    // Get the current highest-level element on the page so that
-    // newly created elements may be placed on top
-    // TODO: decouple the z-index from the order in which this function is used
-    // to create the various parts - right now content has to be called last to
-    // be created on top!
-    let zindex = this.getHighestZIndex();
+    content = this.createMainElement({
+      ariaHidden: "true",
+      className: "agModalContent",
+      id: "ag-modal-content",
+      name: "content",
+      role: "document",
+      tabindex: 0,
+      tagName: "div",
+      zindex: highestZIndex + 3
+    });
 
-    // Create the element, add ID, add class, and set z-index, tabindex,
-    // and aria-hidden
-    let el = document.createElement("div");
-    el.id = "ag-modal-" + element;
-    el.classList.add(styles["agModal" + element.charAt(0).toUpperCase() + element.slice(1)]);
-    el.style.zIndex = zindex + 1;
-    el.setAttribute("tabindex", -1);
-    el.setAttribute("aria-hidden", "true");
+    curtain = this.createMainElement({
+      ariaHidden: "true",
+      className: "agModalCurtain",
+      id: "ag-modal-curtain",
+      name: "curtain",
+      role: "",
+      tabindex: -1,
+      tagName: "div",
+      zindex: highestZIndex + 1
+    });
 
-    if(element === "content") {
-      el.setAttribute("role", "document");
-      el.setAttribute("tabindex", 0);
-    }
+    dialog = this.createMainElement({
+      ariaHidden: "true",
+      className: "agModalDialog",
+      id: "ag-modal-dialog",
+      name: "dialog",
+      role: "dialog",
+      tabindex: -1,
+      tagName: "div",
+      zindex: highestZIndex + 2
+    });
 
-    if(element === "dialog") {
-      el.setAttribute("role", "dialog");
-    }
-
-    if(element === "content") {
-      // Append the modal content to the dialog
-      return(this.el.dialog.appendChild(el));
-    } else {
-      // Append the curtain and dialog to the container
-      return(this.el.parent.appendChild(el));
-    }
+    return {
+      content: content,
+      curtain: curtain,
+      dialog: dialog
+    };
 
   }
 
@@ -150,10 +187,30 @@ export default class Modal {
 
     this.toggleClasses();
     this.toggleAriaHidden();
-
     this.restoreFocus();
 
     return true;
+
+  }
+
+  /**
+   * Check if the main elements have already been created.
+   * @return {boolean}
+   */
+  mainElementsAlreadyExist() {
+
+    return(!!this.el);
+
+  }
+
+  /**
+   * Check if a main element may be created.
+   * @param {string} The name of the element.
+   * @return {boolean}
+   */
+  mainElementIsNotAllowed(name) {
+
+    return(allowedMainElements.indexOf(name) === -1);
 
   }
 
@@ -166,9 +223,13 @@ export default class Modal {
 
     if(this.el.previouslyFocused.tagName === "BODY" ||
      this.el.previouslyFocused.id === "ag-modal-content") {
+
       document.activeElement.blur();
+
     } else {
+
       this.el.previouslyFocused.focus();
+
     }
 
     return true;
@@ -183,7 +244,7 @@ export default class Modal {
   setFocus() {
 
     this.el.previouslyFocused = document.activeElement;
-    this.el.content.focus();
+    this.el.mainElements.content.focus();
 
     return true;
 
@@ -212,7 +273,7 @@ export default class Modal {
   }
 
   /**
-   * Toggle the classes on the body and age gate elements that
+   * Toggle the classes on the body and main elements that
    * control the page scroll and the modal visibility. Note: this
    * does not impact the state object and so should not be called
    * directly - use modal.show() and modal.hide() instead.
@@ -221,19 +282,25 @@ export default class Modal {
   toggleClasses() {
 
     this.el.body.classList.toggle(styles.sAgBodyIsLocked);
-    this.el.content.classList.toggle(styles.sAgModalContentIsShown);
-    this.el.curtain.classList.toggle(styles.sAgModalCurtainIsShown);
-    this.el.dialog.classList.toggle(styles.sAgModalDialogIsShown);
+    this.el.mainElements.content.classList.toggle(styles.sAgModalContentIsShown);
+    this.el.mainElements.curtain.classList.toggle(styles.sAgModalCurtainIsShown);
+    this.el.mainElements.dialog.classList.toggle(styles.sAgModalDialogIsShown);
 
     return true;
 
   }
 
+  /**
+   * Toggle the aria-hiden attribute on the main elements.
+   * @return {boolean}
+   */
   toggleAriaHidden() {
 
-    this.el.content.setAttribute("aria-hidden", !this.state.shown);
-    this.el.curtain.setAttribute("aria-hidden", !this.state.shown);
-    this.el.dialog.setAttribute("aria-hidden", !this.state.shown);
+    this.el.mainElements.content.setAttribute("aria-hidden", !this.state.shown);
+    this.el.mainElements.curtain.setAttribute("aria-hidden", !this.state.shown);
+    this.el.mainElements.dialog.setAttribute("aria-hidden", !this.state.shown);
+
+    return true;
 
   }
 

@@ -9,30 +9,40 @@ export default class AgeGate {
 
   constructor(config) {
 
+    // Setup config options
+    config = config || {};
+    config.wrapper = config.wrapper || null;
+
     // Save references to useful Age Gate elements
     this.el = {
-      container: this.createContainer(),
-      modal: null
+      modal: null,
+      wrapper: config.wrapper
     };
 
-    // When there is a body, append the age gate and
-    // initialise a new modal
-    document.addEventListener("DOMContentLoaded", () => {
-       document.body.appendChild(this.el.container);
-       this.el.modal = new Modal(this.el.container);
-    });
+    this.init();
 
   }
 
   /**
-   * Creates the age gate container element.
-   * @return {HTMLNode}
+   * initialise the Age Gate.
+   * @return {boolean}
    */
-  createContainer() {
+  init() {
 
-    let ageGate = document.createElement("div");
-    ageGate.id = "ag-root";
-    return ageGate;
+    if(this.el.wrapper) {
+
+      document.body.appendChild(this.el.wrapper);
+      this.el.modal = new Modal({
+        wrapper: this.el.wrapper
+      });
+
+    } else {
+
+      this.el.modal = new Modal();
+
+    }
+
+    return true;
 
   }
 

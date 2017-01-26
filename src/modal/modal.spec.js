@@ -4,36 +4,27 @@ describe("Modal", () => {
 
   let ageGate, modal, body, content, curtain, dialog, dummyContent = null;
 
-  beforeAll((done) => {
+  beforeAll(() => {
 
     // Before all tests, create a container element for the age gate
     // that we can append the modal to
     ageGate = document.createElement("div");
     ageGate.id = "ag-root";
 
-    // We have to wait until there is a body before we
-    // can append anything to it :)
-    document.addEventListener("DOMContentLoaded", () => {
+    // Append some dummy page content
+    // NOTE: we give the container an arbitrary z-index value
+    // so we can test against this later
+    document.body.innerHTML = `
+      <div class="container" id="dummy-content" style="z-index: 10;">
+        <h1>Hello World</h1>
+        <p>This is a test</p>
+        <a href="" id="dummy-link">test link</a>
+      </div>
+    `;
 
-      // Append some dummy page content
-      // NOTE: we give the container an arbitrary z-index value
-      // so we can test against this later
-      document.body.innerHTML = `
-        <div class="container" id="dummy-content" style="z-index: 10;">
-          <h1>Hello World</h1>
-          <p>This is a test</p>
-          <a href="" id="dummy-link">test link</a>
-        </div>
-      `;
-
-      document.body.appendChild(ageGate);
-      body = document.body;
-      dummyContent = document.getElementById("dummy-content");
-
-      // Continue with the tests
-      done();
-
-    });
+    document.body.appendChild(ageGate);
+    body = document.body;
+    dummyContent = document.getElementById("dummy-content");
 
   });
 
@@ -41,7 +32,9 @@ describe("Modal", () => {
   // to the curtain and dialog elements
   beforeEach(() => {
 
-    modal = new Modal(ageGate);
+    modal = new Modal({
+      wrapper: ageGate
+    });
     content = document.getElementById("ag-modal-content");
     curtain = document.getElementById("ag-modal-curtain");
     dialog = document.getElementById("ag-modal-dialog");
@@ -54,6 +47,50 @@ describe("Modal", () => {
     ageGate.innerHTML = "";
     body.className = "";
     modal = null;
+
+  });
+
+  // https://github.com/darryl-snow/age-gate-js/issues/43
+  it(`Should append the modal main elements to the body if no wrapper is
+     specified`, () => {
+
+    // Reset the modal
+    ageGate.innerHTML = "";
+    modal = null;
+
+    // Modal with no wrapper specified
+    modal = new Modal();
+
+    let el = document.getElementById("ag-modal-curtain");
+    expect(el.parentNode).toBe(document.body);
+
+    // Remove the curtain from the body so as not to impact subsequent tests
+    document.body.removeChild(el);
+
+    el = document.getElementById("ag-modal-dialog");
+    expect(el.parentNode).toBe(document.body);
+
+    // Remove the curtain from the body so as not to impact subsequent tests
+    document.body.removeChild(el);
+
+  });
+
+  // https://github.com/darryl-snow/age-gate-js/issues/43
+  it(`Should append the modal main elements to the wrapper if one is
+     specified`, () => {
+
+    ageGate.innerHTML = "";
+    modal = null;
+
+    modal = new Modal({
+      wrapper: ageGate
+    });
+
+    let el = document.getElementById("ag-modal-curtain");
+    expect(el.parentNode).toBe(ageGate);
+
+    el = document.getElementById("ag-modal-dialog");
+    expect(el.parentNode).toBe(ageGate);
 
   });
 
@@ -112,7 +149,9 @@ describe("Modal", () => {
     el.parentElement.removeChild(el);
 
     // Re-initialise a modal
-    modal = new Modal(ageGate);
+    modal = new Modal({
+      wrapper: ageGate
+    });
 
     // Now the highest z-index should be the same as it was
     // at the start: original dummy content z-index (10) + curtain
@@ -156,43 +195,70 @@ describe("Modal", () => {
 
   });
 
-  it(`Should only be able to place curtain or dialog elements
-     to the modal`, () => {
+  // https://github.com/darryl-snow/age-gate-js/issues/43
+  it("Should check against a set list of allowed main elements", () => {
+
+    expect(modal.mainElementIsNotAllowed("testing123")).toBe(true);
+    expect(modal.mainElementIsNotAllowed("@££$%&^")).toBe(true);
+    expect(modal.mainElementIsNotAllowed("")).toBe(true);
+    expect(modal.mainElementIsNotAllowed("content")).toBe(false);
+    expect(modal.mainElementIsNotAllowed("curtain")).toBe(false);
+    expect(modal.mainElementIsNotAllowed("dialog")).toBe(false);
+
+  });
+
+  // https://github.com/darryl-snow/age-gate-js/issues/43
+  it("Should check that main elements have not already been created", () => {
+
+    expect(modal.mainElementsAlreadyExist()).toBe(true);
+    modal.el = null;
+    expect(modal.mainElementsAlreadyExist()).toBe(false);
+
+  });
+
+  // https://github.com/darryl-snow/age-gate-js/issues/43
+  it(`Should only be able to append so-named curtain, dialog, or content
+     elements to the modal`, () => {
 
     let el, result = null;
+
+    modal.el.mainElements = null;
+    ageGate.innerHTML = "";
 
     // Try to append an element other than curtain or dialog
     // It should **not** be able to append such an element
     let testPhrase = "testing123";
-    result = modal.createElement(testPhrase);
+    result = modal.createMainElement({
+      ariaHidden: "true",
+      className: testPhrase,
+      id: "ag-modal-" + testPhrase,
+      name: testPhrase,
+      parent: ageGate,
+      role: "",
+      tabindex: -1,
+      tagName: "div",
+      zindex: 1
+    });
     el = document.querySelectorAll("#ag-modal-" + testPhrase);
     expect(el.length).toBe(0);
     expect(result).toBe(false);
-
-    // First remove the modal's reference to the curtain and try
-    // to append a curtain element
-    // It should be able to append a curtain element
-    modal.el.curtain = null;
-    result = modal.createElement("curtain");
-    curtain = document.querySelectorAll("#ag-modal-curtain");
-    expect(curtain.length).not.toBe(0);
-    expect(result).not.toBe(false);
-
-    // First remove the modal's reference to the dialog and try
-    // to append a dialog element
-    // It should be able to append a dialog element
-    modal.el.dialog = null;
-    result = modal.createElement("dialog");
-    dialog = document.querySelectorAll("#ag-modal-dialog");
-    expect(dialog.length).not.toBe(0);
-    expect(result).not.toBe(false);
 
   });
 
   // https://github.com/darryl-snow/age-gate-js/issues/5
   it("Should not add a curtain element if there is one already", () => {
 
-    let result = modal.createElement("curtain");
+    let result = modal.createMainElement({
+      ariaHidden: "true",
+      className: "agModalCurtain",
+      id: "ag-modal-curtain",
+      name: "curtain",
+      parent: ageGate,
+      role: "",
+      tabindex: -1,
+      tagName: "div",
+      zindex: 1
+    });
     expect(result).toBe(false);
 
   });
@@ -200,7 +266,17 @@ describe("Modal", () => {
   // https://github.com/darryl-snow/age-gate-js/issues/6
   it("Should not add a dialog element if there is one already", () => {
 
-    let result = modal.createElement("dialog");
+    let result = modal.createMainElement({
+      ariaHidden: "true",
+      className: "agModalDialog",
+      id: "ag-modal-dialog",
+      name: "dialog",
+      parent: ageGate,
+      role: "dialog",
+      tabindex: -1,
+      tagName: "div",
+      zindex: 1
+    });
     expect(result).toBe(false);
 
   });
@@ -385,7 +461,17 @@ describe("Modal", () => {
   // https://github.com/darryl-snow/age-gate-js/issues/7
   it("Should not create a modal content element if there is one already", () => {
 
-    let result = modal.createElement("content");
+    let result = modal.createMainElement({
+      ariaHidden: "true",
+      className: "agModalContent",
+      id: "ag-modal-content",
+      name: "content",
+      parent: ageGate,
+      role: "document",
+      tabindex: 0,
+      tagName: "div",
+      zindex: 1
+    });
     expect(result).toBe(false);
 
   });

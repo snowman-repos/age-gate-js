@@ -4,12 +4,21 @@ describe("Age Gate", () => {
 
   let ageGate = null;
 
-  // Setup a fresh age gate before each test
-  beforeEach(() => {
+  // Ensure the DOM has loaded before we start any tests
+  beforeAll((done) => {
 
-    ageGate = new AgeGate();
+    document.addEventListener("DOMContentLoaded", () => {
+      done();
+    });
 
   });
+
+  // // Setup a fresh age gate before each test
+  // beforeEach(() => {
+  //
+  //   ageGate = new AgeGate();
+  //
+  // });
 
   // Reset the modal after each test
   afterEach(() => {
@@ -19,12 +28,25 @@ describe("Age Gate", () => {
 
   });
 
-  it("Should create an Age Gate container div with ID ag-root", () => {
+  it("Should initialise a modal object", () => {
 
-    let result = ageGate.createContainer();
+    ageGate = new AgeGate();
+    expect(ageGate.el.modal).not.toBe(null);
 
-    expect(result.tagName).toBe("DIV");
-    expect(result.id).toBe("ag-root");
+  });
+
+  it("Should create and append a wrapper object if one is specified", () => {
+
+    let testName = "test-wrapper";
+    let el = document.createElement("div");
+    el.id = testName;
+
+    ageGate = new AgeGate({
+      wrapper: el
+    });
+
+    let result = document.getElementById(testName);
+    expect(result.length).not.toBe(0);
 
   });
 
