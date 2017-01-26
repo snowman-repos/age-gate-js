@@ -13,16 +13,20 @@ export default class Modal {
     // Save DOM references
     this.el = {
       body: document.body,
+      content: null,
       curtain: null,
       dialog: null,
-      parent: parent
+      parent: parent,
+      previouslyFocused: null
     };
 
     // There are 2 parts to the modal:
+    // - content: a container for the modal content
     // - curtain: a semi-opaque layer that covers the entire screen
     // - dialog: a dialog box that contains the content
     this.el.curtain = this.createElement("curtain");
     this.el.dialog = this.createElement("dialog");
+    this.el.content = this.createElement("content");
 
     // State object
     this.state = {
@@ -48,7 +52,12 @@ export default class Modal {
     // TODO: break up this function
 
     // Do not create other elements
-    if(element !== "curtain" && element !== "dialog") {
+    if(element !== "content" && element !== "curtain" && element !== "dialog") {
+      return false;
+    }
+
+    // Do not create the content if it already exists
+    if(this.el.content !== null && element === "content") {
       return false;
     }
 
@@ -64,23 +73,36 @@ export default class Modal {
 
     // Get the current highest-level element on the page so that
     // newly created elements may be placed on top
+    // TODO: decouple the z-index from the order in which this function is used
+    // to create the various parts - right now content has to be called last to
+    // be created on top!
     let zindex = this.getHighestZIndex();
 
     // Create the element, add ID, add class, and set z-index, tabindex,
     // and aria-hidden
     let el = document.createElement("div");
     el.id = "ag-modal-" + element;
-    el.classList.add(styles["ag" + element.charAt(0).toUpperCase() + element.slice(1)]);
+    el.classList.add(styles["agModal" + element.charAt(0).toUpperCase() + element.slice(1)]);
     el.style.zIndex = zindex + 1;
     el.setAttribute("tabindex", -1);
     el.setAttribute("aria-hidden", "true");
+
+    if(element === "content") {
+      el.setAttribute("role", "document");
+      el.setAttribute("tabindex", 0);
+    }
 
     if(element === "dialog") {
       el.setAttribute("role", "dialog");
     }
 
-    // Append the element to the container
-    return(this.el.parent.appendChild(el));
+    if(element === "content") {
+      // Append the modal content to the dialog
+      return(this.el.dialog.appendChild(el));
+    } else {
+      // Append the curtain and dialog to the container
+      return(this.el.parent.appendChild(el));
+    }
 
   }
 
@@ -129,6 +151,40 @@ export default class Modal {
     this.toggleClasses();
     this.toggleAriaHidden();
 
+    this.restoreFocus();
+
+    return true;
+
+  }
+
+  /**
+   * If any element was in focus before the modal was opened then restore
+   * focus to that element.
+   * @return {boolean}
+   */
+  restoreFocus() {
+
+    if(this.el.previouslyFocused.tagName === "BODY" ||
+     this.el.previouslyFocused.id === "ag-modal-content") {
+      document.activeElement.blur();
+    } else {
+      this.el.previouslyFocused.focus();
+    }
+
+    return true;
+
+  }
+
+  /**
+   * Save a reference to any currently focused element and give focus to the
+   * modal content
+   * @return {boolean}
+   */
+  setFocus() {
+
+    this.el.previouslyFocused = document.activeElement;
+    this.el.content.focus();
+
     return true;
 
   }
@@ -149,6 +205,7 @@ export default class Modal {
 
     this.toggleClasses();
     this.toggleAriaHidden();
+    this.setFocus();
 
     return true;
 
@@ -164,6 +221,7 @@ export default class Modal {
   toggleClasses() {
 
     this.el.body.classList.toggle(styles.sAgBodyIsLocked);
+    this.el.content.classList.toggle(styles.sAgModalContentIsShown);
     this.el.curtain.classList.toggle(styles.sAgModalCurtainIsShown);
     this.el.dialog.classList.toggle(styles.sAgModalDialogIsShown);
 
@@ -173,6 +231,7 @@ export default class Modal {
 
   toggleAriaHidden() {
 
+    this.el.content.setAttribute("aria-hidden", !this.state.shown);
     this.el.curtain.setAttribute("aria-hidden", !this.state.shown);
     this.el.dialog.setAttribute("aria-hidden", !this.state.shown);
 

@@ -2,7 +2,7 @@ import Modal from "./modal";
 
 describe("Modal", () => {
 
-  let ageGate, modal, body, curtain, dialog = null;
+  let ageGate, modal, body, content, curtain, dialog, dummyContent = null;
 
   beforeAll((done) => {
 
@@ -19,14 +19,16 @@ describe("Modal", () => {
       // NOTE: we give the container an arbitrary z-index value
       // so we can test against this later
       document.body.innerHTML = `
-        <div class="container" style="z-index: 10;">
+        <div class="container" id="dummy-content" style="z-index: 10;">
           <h1>Hello World</h1>
           <p>This is a test</p>
+          <a href="" id="dummy-link">test link</a>
         </div>
       `;
 
       document.body.appendChild(ageGate);
       body = document.body;
+      dummyContent = document.getElementById("dummy-content");
 
       // Continue with the tests
       done();
@@ -40,6 +42,7 @@ describe("Modal", () => {
   beforeEach(() => {
 
     modal = new Modal(ageGate);
+    content = document.getElementById("ag-modal-content");
     curtain = document.getElementById("ag-modal-curtain");
     dialog = document.getElementById("ag-modal-dialog");
 
@@ -49,6 +52,7 @@ describe("Modal", () => {
   afterEach(() => {
 
     ageGate.innerHTML = "";
+    body.className = "";
     modal = null;
 
   });
@@ -73,10 +77,11 @@ describe("Modal", () => {
   // https://github.com/darryl-snow/age-gate-js/issues/6
   it("Should find the highest z-index on the page", () => {
 
-    // 12 because we gave the page content a z-index of 10
-    // (see beforeAll), then the curtain and dialog should each
-    // be 1 level up: 10 + 1 + 1 = 12 = the dialog z-index
-    expect(modal.getHighestZIndex()).toEqual(12);
+    // 13 because we gave the page content a z-index of 10
+    // (see beforeAll), then the curtain, dialog, and content
+    // should each be 1 level up: 10 + 1 + 1 = 13 = the content
+    // z-index
+    expect(modal.getHighestZIndex()).toEqual(13);
 
     // Remove the curtain and dialog from the DOM
     ageGate.innerHTML = "";
@@ -111,15 +116,17 @@ describe("Modal", () => {
 
     // Now the highest z-index should be the same as it was
     // at the start: original dummy content z-index (10) + curtain
-    // z-index increment (1) + dialog z-index increment (1) = 12
-    expect(modal.getHighestZIndex()).toEqual(12);
+    // z-index increment (1) + dialog z-index increment (1)  +
+    // content z-index increment (1) = 13
+    expect(modal.getHighestZIndex()).toEqual(13);
 
   });
 
   // https://github.com/darryl-snow/age-gate-js/issues/5
   it("Should place the curtain element above anything else on the page", () => {
 
-    expect(Number(curtain.style.zIndex)).toEqual(modal.getHighestZIndex() - 1);
+    // -2 because the dialog and modal content should be higher
+    expect(Number(curtain.style.zIndex)).toEqual(modal.getHighestZIndex() - 2);
 
   });
 
@@ -215,14 +222,16 @@ describe("Modal", () => {
 
   // https://github.com/darryl-snow/age-gate-js/issues/5
   // https://github.com/darryl-snow/age-gate-js/issues/6
+  // https://github.com/darryl-snow/age-gate-js/issues/7
   it(`Should be able to toggle the control classes on the body,
-    and the curtain and dialog elements`, () => {
+    and the curtain, dialog, and content elements`, () => {
 
     // State control classes are applied to the body, the
     // curtain, and the dialog elements
     // The modal is not shown by default so these state
     // control classes should not be applied
     expect(body.className.indexOf("is-locked")).toEqual(-1);
+    expect(content.className.indexOf("is-shown")).toEqual(-1);
     expect(curtain.className.indexOf("is-shown")).toEqual(-1);
     expect(dialog.className.indexOf("is-shown")).toEqual(-1);
 
@@ -231,6 +240,7 @@ describe("Modal", () => {
     // After calling the toggleClasses function, the state
     // control classes should be applied
     expect(body.className.indexOf("is-locked")).not.toEqual(-1);
+    expect(content.className.indexOf("is-shown")).not.toEqual(-1);
     expect(curtain.className.indexOf("is-shown")).not.toEqual(-1);
     expect(dialog.className.indexOf("is-shown")).not.toEqual(-1);
 
@@ -239,8 +249,47 @@ describe("Modal", () => {
     // After calling the toggleClasses function again, the state
     // control classes __should__ be applied
     expect(body.className.indexOf("is-locked")).toEqual(-1);
+    expect(content.className.indexOf("is-shown")).toEqual(-1);
     expect(curtain.className.indexOf("is-shown")).toEqual(-1);
     expect(dialog.className.indexOf("is-shown")).toEqual(-1);
+
+  });
+
+  it("Should be able to show the modal", () => {
+
+    expect(body.className.indexOf("is-locked")).toEqual(-1);
+    expect(content.className.indexOf("is-shown")).toEqual(-1);
+    expect(curtain.className.indexOf("is-shown")).toEqual(-1);
+    expect(dialog.className.indexOf("is-shown")).toEqual(-1);
+    expect(modal.state.shown).toBe(false);
+
+    modal.show();
+
+    expect(body.className.indexOf("is-locked")).not.toEqual(-1);
+    expect(content.className.indexOf("is-shown")).not.toEqual(-1);
+    expect(curtain.className.indexOf("is-shown")).not.toEqual(-1);
+    expect(dialog.className.indexOf("is-shown")).not.toEqual(-1);
+    expect(modal.state.shown).toBe(true);
+
+  });
+
+  it("Should be able to hide the modal", () => {
+
+    modal.show();
+
+    expect(body.className.indexOf("is-locked")).not.toEqual(-1);
+    expect(content.className.indexOf("is-shown")).not.toEqual(-1);
+    expect(curtain.className.indexOf("is-shown")).not.toEqual(-1);
+    expect(dialog.className.indexOf("is-shown")).not.toEqual(-1);
+    expect(modal.state.shown).toBe(true);
+
+    modal.hide();
+
+    expect(body.className.indexOf("is-locked")).toEqual(-1);
+    expect(content.className.indexOf("is-shown")).toEqual(-1);
+    expect(curtain.className.indexOf("is-shown")).toEqual(-1);
+    expect(dialog.className.indexOf("is-shown")).toEqual(-1);
+    expect(modal.state.shown).toBe(false);
 
   });
 
@@ -260,11 +309,20 @@ describe("Modal", () => {
 
   });
 
-  it(`Should be able to toggle the aria-hidden attribute on the curtain
-     and the dialog elements`, () => {
+  // https://github.com/darryl-snow/age-gate-js/issues/7
+  it(`Should give the modal content a tabindex of 0 so that it
+     can be focused`, () => {
+
+    expect(Number(content.getAttribute('tabindex'))).toEqual(0);
+
+  });
+
+  it(`Should be able to toggle the aria-hidden attribute on the curtain,
+     dialog, and content elements`, () => {
 
     // Expect it to be true because the dialog is hiden by default
     expect(curtain.getAttribute("aria-hidden")).toBe("true");
+    expect(dialog.getAttribute("aria-hidden")).toBe("true");
     expect(dialog.getAttribute("aria-hidden")).toBe("true");
 
     modal.state.shown = true;
@@ -272,11 +330,11 @@ describe("Modal", () => {
 
     expect(curtain.getAttribute("aria-hidden")).toBe("false");
     expect(dialog.getAttribute("aria-hidden")).toBe("false");
+    expect(dialog.getAttribute("aria-hidden")).toBe("false");
 
   });
 
   // https://github.com/darryl-snow/age-gate-js/issues/5
-  // https://github.com/darryl-snow/age-gate-js/issues/6
   it(`Should set aria-hidden='true' when the curtain is hidden and
    aria-hidden='false' when the curtain is shown`, () => {
 
@@ -293,6 +351,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/6
   it(`Should set aria-hidden='true' when the dialog is hidden and
    aria-hidden='false' when the dialog is shown`, () => {
 
@@ -309,10 +368,118 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/6
   it("Should give the dialog a role='dialog' attribute", () => {
 
     expect(dialog.getAttribute("role")).toBe("dialog");
 
   });
+
+  // https://github.com/darryl-snow/age-gate-js/issues/7
+  it("Should create a modal content element", () => {
+
+    expect(content.length).not.toBe(0);
+
+  });
+
+  // https://github.com/darryl-snow/age-gate-js/issues/7
+  it("Should not create a modal content element if there is one already", () => {
+
+    let result = modal.createElement("content");
+    expect(result).toBe(false);
+
+  });
+
+  // https://github.com/darryl-snow/age-gate-js/issues/7
+  it("Should append the modal content element to the modal dialog", () => {
+
+    expect(content.parentElement.id).toBe("ag-modal-dialog");
+
+  });
+
+  // https://github.com/darryl-snow/age-gate-js/issues/7
+  it("Should give the modal content element role='document'", () => {
+
+    expect(content.getAttribute("role")).toBe("document");
+
+  });
+
+  // https://github.com/darryl-snow/age-gate-js/issues/7
+  it(`Should set aria-hidden='true' when the modal content element is hidden and
+   aria-hidden='false' when the modal content element is shown`, () => {
+
+    // Expect it to be true because the content is hiden by default
+    expect(content.getAttribute('aria-hidden')).toBe("true");
+
+    modal.show();
+
+    expect(content.getAttribute('aria-hidden')).toBe("false");
+
+    modal.hide();
+
+    expect(content.getAttribute('aria-hidden')).toBe("true");
+
+  });
+
+  // https://github.com/darryl-snow/age-gate-js/issues/7
+  it("Should give focus to the modal content element when it appears", () => {
+
+    modal.show();
+
+    expect(document.activeElement.id).toBe("ag-modal-content");
+
+  });
+
+  // https://github.com/darryl-snow/age-gate-js/issues/7
+  it(`Should return focus to the previously focused element when the modal is
+     closed`, () => {
+
+    let dummyLink = dummyContent.querySelector("#dummy-link");
+
+    // At first, nothing should be focused
+    expect(document.activeElement.tagName).toBe("BODY");
+    expect(document.activeElement.id).toBe("");
+
+    modal.show();
+
+    // After showing the modal, the modal content should be focused
+    expect(document.activeElement.tagName).toBe("DIV");
+    expect(document.activeElement.id).toBe("ag-modal-content");
+
+    modal.hide();
+
+    // After hiding the modal, nothing should be focused, just as before
+    expect(document.activeElement.tagName).toBe("BODY");
+    expect(document.activeElement.id).toBe("");
+
+    dummyLink.focus();
+
+    // After focusing the dummy link, the dummy link should be focused
+    expect(document.activeElement.tagName).toBe("A");
+    expect(document.activeElement.id).toBe("dummy-link");
+
+    modal.show();
+
+    // After showing the modal, the modal content should be focused
+    expect(document.activeElement.tagName).toBe("DIV");
+    expect(document.activeElement.id).toBe("ag-modal-content");
+
+    modal.hide();
+
+    // After hiding the modal, the dummy link should be focused, just as before
+    expect(document.activeElement.tagName).toBe("A");
+    expect(document.activeElement.id).toBe("dummy-link");
+
+  });
+
+  // it(`Should retain focus inside the modal content element when it is
+  //    displayed`, () => {
+  //
+  // });
+  //
+  // it(`Should assign sequential tab index values to all focusable elements inside
+  //    the modal content element`, () => {
+  //
+  // });
 
 });

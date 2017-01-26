@@ -53,7 +53,7 @@
  * the page except for the modal dialog. It should be hidden by default.
  * @state .s-ag-modal-dialog-is-shown - show the modal dialog
  * @markup
- * <div aria-describedby="description" aria-hidden="true" aria-labelledby="title" class="ag-modal-dialog" id="ag-modal-dialog" style="z-index: 1;" tabindex="-1"></div>
+ * <div aria-describedby="description" aria-hidden="true" aria-labelledby="title" class="ag-modal-dialog" id="ag-modal-dialog" style="z-index: 2;" tabindex="-1"></div>
  */
 .ag-modal-dialog {
   background-color: #F5F5F5;
@@ -84,4 +84,24 @@
   opacity: 1;
   pointer-events: auto;
   transform: translateX(-50%) translateY(-50%);
+}
+
+/**
+ * @name AG Modal Content
+ * @description The container for all content inside the modal dialog
+ * @markup
+ * <div aria-hidden="true" class="ag-modal-content" id="ag-modal-content" role="document" style="z-index: 3;" tabindex="-1"></div>
+ */
+.ag-modal-content {
+  opacity: 0;
+  padding: 1.5em;
+  transition: 0.3s 0.6s all ease-in-out;
+}
+
+/**
+ * @name AG Modal Content Is Shown
+ * @description This is a state class that shows the modal content.
+ */
+.s-ag-modal-content-is-shown {
+  opacity: 1;
 }

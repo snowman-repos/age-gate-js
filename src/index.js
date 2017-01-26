@@ -37,5 +37,3 @@ export default class AgeGate {
   }
 
 }
-
-// document.hasFocus() ? console.log(document.activeElement) : console.log(false);
