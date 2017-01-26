@@ -1,7 +1,7 @@
 import styles from "./modal.css";
 
 /**
- * Class create and control a modal window for the age gate; the
+ * Class to create and control a modal window for the age gate; the
  * modal is not shown by default.
  * @param {object} HTMLNode to which the modal will be attached.
  * @constructor

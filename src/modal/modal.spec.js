@@ -1,6 +1,6 @@
 import Modal from "./modal";
 
-describe("Age Gate", () => {
+describe("Modal", () => {
 
   let ageGate, modal, body, curtain, dialog = null;
 
