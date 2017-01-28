@@ -357,4 +357,26 @@ describe("Modal Content", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/20
+  it("Should be able to generate a disclaimer element", () => {
+
+    let newRow = new ModalContent({
+      id: "ag-disclaimer",
+      tagName: "p",
+      content: `This is <em>italic text</em> and this is <strong>bold
+       text</strong> and this is <a href="http://google.com">a link</a>, while
+        <span style="text-decoration: underline;">this is underlined</span>.`
+    });
+
+    let child = getChild(newRow, "ag-disclaimer");
+
+    expect(child.tagName).toMatch("P");
+    expect(child.className.indexOf("ag-disclaimer")).not.toBe(-1);
+    expect(child.querySelectorAll('em').length).toEqual(1);
+    expect(child.querySelectorAll('strong').length).toEqual(1);
+    expect(child.querySelectorAll('a').length).toEqual(1);
+    expect(child.querySelectorAll('span').length).toEqual(1);
+
+  });
+
 });
