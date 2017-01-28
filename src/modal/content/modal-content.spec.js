@@ -236,4 +236,60 @@ describe("Modal Content", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/11
+  it("Should be able to generate a checkbox element", () => {
+
+    let newRow = new ModalContent({
+      id: "ag-checkbox-container",
+      tagName: "label",
+      attributes: {
+        for: "ag-checkbox"
+      },
+      content: "<input id='ag-checkbox' name='ag-checkbox' type='checkbox' /><span>This is the checkbox label</span>"
+    });
+
+    let child = getChild(newRow, "ag-checkbox-container");
+
+    expect(child.tagName).toMatch("LABEL");
+    expect(child.className.indexOf("ag-checkbox-container")).not.toBe(-1);
+    expect(child.getAttribute("for")).toMatch("ag-checkbox");
+    expect(child.querySelectorAll('input').length).toEqual(1);
+    expect(child.querySelectorAll('input')[0].id).toMatch("ag-checkbox");
+    expect(child.querySelectorAll('input')[0].getAttribute("name")).toMatch("ag-checkbox");
+    expect(child.querySelectorAll('input')[0].getAttribute("type")).toMatch("checkbox");
+    expect(child.querySelectorAll('span').length).toEqual(1);
+
+
+  });
+
+  // https://github.com/darryl-snow/age-gate-js/issues/12
+  it("Should be able to generate a radio element", () => {
+
+    let newRow = new ModalContent({
+      id: "ag-radio-container",
+      tagName: "div",
+      content: `
+        <input id='ag-radio1' name='ag-radio' type='radio' value='legal' />
+        <label for='ag-radio1'>Option 1</label>
+        <input id='ag-radio2' name='ag-radio' type='radio' value='illegal' />
+        <label for='ag-radio2'>Option 2</label>`
+    });
+
+    let child = getChild(newRow, "ag-radio-container");
+
+    expect(child.tagName).toMatch("DIV");
+    expect(child.className.indexOf("ag-radio-container")).not.toBe(-1);
+    expect(child.querySelectorAll('input').length).toEqual(2);
+    expect(child.querySelectorAll('label').length).toEqual(2);
+    expect(child.querySelectorAll('label')[0].getAttribute("for")).toMatch("ag-radio1");
+    expect(child.querySelectorAll('label')[1].getAttribute("for")).toMatch("ag-radio2");
+    expect(child.querySelectorAll('input')[0].id).toMatch("ag-radio1");
+    expect(child.querySelectorAll('input')[1].id).toMatch("ag-radio2");
+    expect(child.querySelectorAll('input')[0].getAttribute("name")).toMatch("ag-radio");
+    expect(child.querySelectorAll('input')[1].getAttribute("name")).toMatch("ag-radio");
+    expect(child.querySelectorAll('input')[0].getAttribute("type")).toMatch("radio");
+    expect(child.querySelectorAll('input')[1].getAttribute("type")).toMatch("radio");
+
+  });
+
 });
