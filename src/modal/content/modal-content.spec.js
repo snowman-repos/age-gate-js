@@ -215,4 +215,25 @@ describe("Modal Content", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/9
+  it("Should be able to generate an image element", () => {
+
+    let newRow = new ModalContent({
+      id: "ag-image",
+      tagName: "img",
+      attributes: {
+        src: "http://www.underconsideration.com/brandnew/archives/google_2015_logo_detail.png",
+        alt: "This is the alt text"
+      }
+    });
+
+    let child = getChild(newRow, "ag-image");
+
+    expect(child.tagName).toMatch("IMG");
+    expect(child.className.indexOf("ag-image")).not.toBe(-1);
+    expect(child.getAttribute("src")).toMatch("http://www.underconsideration.com/brandnew/archives/google_2015_logo_detail.png");
+    expect(child.getAttribute("alt")).toMatch("This is the alt text");
+
+  });
+
 });
