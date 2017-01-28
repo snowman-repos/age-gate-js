@@ -2,6 +2,8 @@ import styles from "./title.css";
 
 /**
  * Creates title elements that can be configured with the following options:
+ * - content
+ * - classes
  * @param {object} The configuration object.
  * @return {object} The HTML node for the title element created.
  */
@@ -28,6 +30,7 @@ export default class Title {
     // optional configuration
     el.classList.add(config.classes);
     el.textContent = config.content;
+
     return el;
 
   }
