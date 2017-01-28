@@ -338,4 +338,23 @@ describe("Modal Content", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/19
+  it("Should be able to generate a button element", () => {
+
+    let newRow = new ModalContent({
+      id: "ag-button-container",
+      tagName: "div",
+      content: `
+        <button id='ag-button'>Verify age</button>`
+    });
+
+    let child = getChild(newRow, "ag-button-container");
+
+    expect(child.tagName).toMatch("DIV");
+    expect(child.className.indexOf("ag-button-container")).not.toBe(-1);
+    expect(child.querySelectorAll('button').length).toEqual(1);
+    expect(child.querySelectorAll('button')[0].id).toMatch("ag-button");
+
+  });
+
 });
