@@ -292,4 +292,50 @@ describe("Modal Content", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/17
+  it("Should be able to generate a country select element", () => {
+
+    let newRow = new ModalContent({
+      id: "ag-country-container",
+      tagName: "div",
+      content: `
+        <label for='ag-country'>Select the country you are in:</label>
+        <select id='ag-country'>
+          <option value='country'>Country</option>
+        </select>`
+    });
+
+    let child = getChild(newRow, "ag-country-container");
+
+    expect(child.tagName).toMatch("DIV");
+    expect(child.className.indexOf("ag-country-container")).not.toBe(-1);
+    expect(child.querySelectorAll('label').length).toEqual(1);
+    expect(child.querySelectorAll('select').length).toEqual(1);
+    expect(child.querySelectorAll('select')[0].id).toMatch("ag-country");
+
+  });
+
+  // https://github.com/darryl-snow/age-gate-js/issues/18
+  it("Should be able to generate a language select element", () => {
+
+    let newRow = new ModalContent({
+      id: "ag-language-container",
+      tagName: "div",
+      content: `
+        <label for='ag-language'>Select your language:</label>
+        <select id='ag-language'>
+          <option value='language'>Language</option>
+        </select>`
+    });
+
+    let child = getChild(newRow, "ag-language-container");
+
+    expect(child.tagName).toMatch("DIV");
+    expect(child.className.indexOf("ag-language-container")).not.toBe(-1);
+    expect(child.querySelectorAll('label').length).toEqual(1);
+    expect(child.querySelectorAll('select').length).toEqual(1);
+    expect(child.querySelectorAll('select')[0].id).toMatch("ag-language");
+
+  });
+
 });
