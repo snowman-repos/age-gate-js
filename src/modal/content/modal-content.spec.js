@@ -379,4 +379,61 @@ describe("Modal Content", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/14
+  it("Should be able to generate a day input element", () => {
+
+    let newRow = new ModalContent({
+      id: "ag-day-container",
+      tagName: "div",
+      content: `<span>This is an error notification</span><input id="ag-day"
+       name="ag-day" type="text" />`
+    });
+
+    let child = getChild(newRow, "ag-day-container");
+
+    expect(child.tagName).toMatch("DIV");
+    expect(child.className.indexOf("ag-day-container")).not.toBe(-1);
+    expect(child.querySelectorAll('span').length).toEqual(1);
+    expect(child.querySelectorAll('input').length).toEqual(1);
+
+  });
+
+  // https://github.com/darryl-snow/age-gate-js/issues/15
+  it("Should be able to generate a month input element", () => {
+
+    let newRow = new ModalContent({
+      id: "ag-month-container",
+      tagName: "div",
+      content: `<span>This is an error notification</span><input id="ag-month"
+       name="ag-month" type="text" />`
+    });
+
+    let child = getChild(newRow, "ag-month-container");
+
+    expect(child.tagName).toMatch("DIV");
+    expect(child.className.indexOf("ag-month-container")).not.toBe(-1);
+    expect(child.querySelectorAll('span').length).toEqual(1);
+    expect(child.querySelectorAll('input').length).toEqual(1);
+
+  });
+
+  // https://github.com/darryl-snow/age-gate-js/issues/16
+  it("Should be able to generate a year input element", () => {
+
+    let newRow = new ModalContent({
+      id: "ag-year-container",
+      tagName: "div",
+      content: `<span>This is an error notification</span><input id="ag-year"
+       name="ag-year" type="text" />`
+    });
+
+    let child = getChild(newRow, "ag-year-container");
+
+    expect(child.tagName).toMatch("DIV");
+    expect(child.className.indexOf("ag-year-container")).not.toBe(-1);
+    expect(child.querySelectorAll('span').length).toEqual(1);
+    expect(child.querySelectorAll('input').length).toEqual(1);
+
+  });
+
 });

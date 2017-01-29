@@ -144,6 +144,17 @@ export default class Modal {
   }
 
   /**
+   * Generate the HTML for the required content inside the modal dialog.
+   * @param {object} The configuration for the contents.
+   * @return {object} The content of the modal dialog.
+   */
+  generateContents(config) {
+
+    console.log(config);
+
+  }
+
+  /**
    * Get the highest (z-index) element on the page.
    * @return {number} The current highest z-index.
    */
