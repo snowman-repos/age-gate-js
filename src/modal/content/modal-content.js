@@ -46,9 +46,6 @@ export default class ModalContent {
    */
   createElement(config) {
 
-    let container = document.createElement("div");
-    container.classList.add(styles.agModalContentRow);
-
     let el = document.createElement(config.tagName);
     el.id = config.id;
     el.classList.add(styles[config.id]);
@@ -65,9 +62,7 @@ export default class ModalContent {
     // optional content
     el.innerHTML = config.content;
 
-    container.appendChild(el);
-
-    return container;
+    return el;
 
   }
 

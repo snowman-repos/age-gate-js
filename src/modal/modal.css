@@ -88,7 +88,7 @@
 
 /**
  * @name AG Modal Content
- * @description The container for all content inside the modal dialog
+ * @description The container for all content inside the modal dialog.
  * @markup
  * <div aria-hidden="true" class="ag-modal-content" id="ag-modal-content" role="document" style="z-index: 3;" tabindex="-1"></div>
  */
@@ -104,4 +104,27 @@
  */
 .s-ag-modal-content-is-shown {
   opacity: 1;
+}
+
+/**
+ * @name AG Modal Content Row
+ * @description The container for a content element inside the modal dialog.
+ * @markup
+ * <div class="ag-modal-content-row"></div>
+ */
+.ag-modal-content-row {
+  display: flex;
+  margin-bottom: 0.75em;
+  position: relative;
+}
+
+/**
+ * @name AG Modal Content Column
+ * @description The container for a content element inside a row.
+ * @markup
+ * <div class="ag-modal-content-column"></div>
+ */
+.ag-modal-content-column {
+  display: block;
+  position: relative;
 }

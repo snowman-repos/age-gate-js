@@ -558,6 +558,16 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/7
+  it("Should create a container element", () => {
+
+    let newRow = modal.generateContainer();
+
+    expect(newRow.tagName).toMatch("DIV");
+    expect(newRow.className.indexOf("ag-modal-content-row")).not.toBe(-1);
+
+  });
+
   // it(`Should retain focus inside the modal content element when it is
   //    displayed`, () => {
   //
