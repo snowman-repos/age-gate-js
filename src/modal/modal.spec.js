@@ -568,6 +568,1351 @@ describe("Modal", () => {
 
   });
 
+  it("Should create intro, radio, and button elements by default", () => {
+
+    // let modalContent = modal.generateContents();
+    // console.log(modalContent);
+    expect(true).toBe(true);
+
+    // TODO: finsih this
+
+  });
+
+  it("Should generate a container (row) object", () => {
+
+    let container = modal.generateContainer();
+
+    expect(container.className.indexOf("ag-modal-content-row")).not.toBe(-1);
+
+  });
+
+  it("Should generate a sub container (column) object", () => {
+
+    let subContainer = modal.generateSubContainer();
+
+    expect(subContainer.className.indexOf("ag-modal-content-column")).not.toBe(-1);
+
+  });
+
+  it("Should create a title element with default settings", () => {
+
+    let title = modal.generateTitle();
+
+    expect(title.className.indexOf("ag-modal-content-row")).not.toBe(-1);
+    expect(title.querySelectorAll("h1").length).not.toBe(0);
+    expect(title.querySelectorAll("h1")[0].id).toMatch("ag-title");
+    expect(title.querySelectorAll("h1")[0].className.indexOf("ag-title")).not.toBe(-1);
+    expect(title.querySelectorAll("h1")[0].innerHTML).toMatch("Please Verify Your Age");
+
+  });
+
+  it("Should create a title element with custom settings", () => {
+
+    let title = modal.generateTitle({
+      id: "dummyId",
+      tagName: "p",
+      content: "This is some test content",
+      classes: [
+        "testClassA",
+        "testClassB"
+      ],
+      attributes: {
+        testAttributeA: "testValueA",
+        testAttributeB: "testValueB"
+      }
+    });
+
+    expect(title.className.indexOf("ag-modal-content-row")).not.toBe(-1);
+    expect(title.querySelectorAll("p").length).toBe(0);
+    expect(title.querySelectorAll("h1").length).not.toBe(0);
+    expect(title.querySelectorAll("h1")[0].id).toMatch("ag-title");
+    expect(title.querySelectorAll("h1")[0].className.indexOf("ag-title")).not.toBe(-1);
+    expect(title.querySelectorAll("h1")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(title.querySelectorAll("h1")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(title.querySelectorAll("h1")[0].innerHTML).toMatch("This is some test content");
+    expect(title.querySelectorAll("h1")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(title.querySelectorAll("h1")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+  });
+
+  it("Should create a intro element with default settings", () => {
+
+    let intro = modal.generateIntro();
+
+    expect(intro.className.indexOf("ag-modal-content-row")).not.toBe(-1);
+    expect(intro.querySelectorAll("p").length).not.toBe(0);
+    expect(intro.querySelectorAll("p")[0].id).toMatch("ag-intro");
+    expect(intro.querySelectorAll("p")[0].className.indexOf("ag-intro")).not.toBe(-1);
+    expect(intro.querySelectorAll("p")[0].innerHTML).toMatch(`For legal reasons, we need you to verify that you are of legal age before we can let you in to our site.`);
+
+  });
+
+  it("Should create a intro element with custom settings", () => {
+
+    let intro = modal.generateIntro({
+      id: "dummyId",
+      tagName: "random",
+      content: "This is some test content",
+      classes: [
+        "testClassA",
+        "testClassB"
+      ],
+      attributes: {
+        testAttributeA: "testValueA",
+        testAttributeB: "testValueB"
+      }
+    });
+
+    expect(intro.className.indexOf("ag-modal-content-row")).not.toBe(-1);
+    expect(intro.querySelectorAll("random").length).toBe(0);
+    expect(intro.querySelectorAll("p").length).not.toBe(0);
+    expect(intro.querySelectorAll("p")[0].id).toMatch("ag-intro");
+    expect(intro.querySelectorAll("p")[0].className.indexOf("ag-intro")).not.toBe(-1);
+    expect(intro.querySelectorAll("p")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(intro.querySelectorAll("p")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(intro.querySelectorAll("p")[0].innerHTML).toMatch("This is some test content");
+    expect(intro.querySelectorAll("p")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(intro.querySelectorAll("p")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+  });
+
+  it("Should create a image element with default settings", () => {
+
+    let image = modal.generateImage();
+
+    expect(image.className.indexOf("ag-modal-content-row")).not.toBe(-1);
+    expect(image.querySelectorAll("img").length).not.toBe(0);
+    expect(image.querySelectorAll("img")[0].id).toMatch("ag-image");
+    expect(image.querySelectorAll("img")[0].className.indexOf("ag-image")).not.toBe(-1);
+    expect(image.querySelectorAll("img")[0].innerHTML).toMatch("");
+    expect(image.querySelectorAll("img")[0].getAttribute("src")).toMatch("");
+    expect(image.querySelectorAll("img")[0].getAttribute("alt")).toMatch("");
+
+  });
+
+  it("Should create a image element with custom settings", () => {
+
+    let image = modal.generateImage({
+      id: "dummyId",
+      tagName: "random",
+      content: "This is some test content",
+      classes: [
+        "testClassA",
+        "testClassB"
+      ],
+      attributes: {
+        testAttributeA: "testValueA",
+        testAttributeB: "testValueB",
+        src: "https://google.com",
+        alt: "Alt text"
+      }
+    });
+
+    expect(image.className.indexOf("ag-modal-content-row")).not.toBe(-1);
+    expect(image.querySelectorAll("random").length).toBe(0);
+    expect(image.querySelectorAll("img").length).not.toBe(0);
+    expect(image.querySelectorAll("img")[0].id).toMatch("ag-image");
+    expect(image.querySelectorAll("img")[0].className.indexOf("ag-image")).not.toBe(-1);
+    expect(image.querySelectorAll("img")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(image.querySelectorAll("img")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(image.querySelectorAll("img")[0].innerHTML).toMatch("");
+    expect(image.querySelectorAll("img")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(image.querySelectorAll("img")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+    expect(image.querySelectorAll("img")[0].getAttribute("src")).toMatch("https://google.com");
+    expect(image.querySelectorAll("img")[0].getAttribute("alt")).toMatch("Alt text");
+
+  });
+
+  it("Should create a radio element with default settings", () => {
+
+    let radio = modal.generateRadio();
+
+    expect(radio.className.indexOf("ag-modal-content-row")).not.toBe(-1);
+    expect(radio.querySelectorAll("p").length).not.toBe(0);
+    expect(radio.querySelectorAll("p")[0].id).toMatch("ag-radio-error");
+    expect(radio.querySelectorAll("p")[0].className.indexOf("ag-radio-error")).not.toBe(-1);
+    expect(radio.querySelectorAll("p")[0].innerHTML).toMatch("Sorry, you must be of legal age to enter this site.");
+
+    expect(radio.querySelectorAll("div").length).toBe(2);
+
+    let firstColumn = radio.querySelectorAll("div")[0];
+    let secondColumn = radio.querySelectorAll("div")[1];
+
+    expect(firstColumn.className.indexOf("ag-modal-content-column")).not.toBe(-1);
+    expect(secondColumn.className.indexOf("ag-modal-content-column")).not.toBe(-1);
+
+    expect(firstColumn.querySelectorAll("input").length).not.toBe(0);
+    expect(firstColumn.querySelectorAll("input")[0].id).toMatch("ag-radio-yes");
+    expect(firstColumn.querySelectorAll("input")[0].className.indexOf("ag-radio-yes")).not.toBe(0);
+    expect(firstColumn.querySelectorAll("input")[0].getAttribute("name")).toMatch("radio");
+    expect(firstColumn.querySelectorAll("input")[0].getAttribute("type")).toMatch("radio");
+    expect(firstColumn.querySelectorAll("input")[0].getAttribute("value")).toMatch("yes");
+
+    expect(firstColumn.querySelectorAll("label").length).not.toBe(0);
+    expect(firstColumn.querySelectorAll("label")[0].id).toMatch("ag-radio-yes-label");
+    expect(firstColumn.querySelectorAll("label")[0].className.indexOf("ag-radio-yes-label")).not.toBe(0);
+    expect(firstColumn.querySelectorAll("label")[0].innerHTML).toMatch("Yes, I am of legal age.");
+    expect(firstColumn.querySelectorAll("label")[0].getAttribute("for")).toMatch("ag-radio-yes");
+
+    expect(secondColumn.querySelectorAll("input").length).not.toBe(0);
+    expect(secondColumn.querySelectorAll("input")[0].id).toMatch("ag-radio-no");
+    expect(secondColumn.querySelectorAll("input")[0].className.indexOf("ag-radio-no")).not.toBe(0);
+    expect(secondColumn.querySelectorAll("input")[0].getAttribute("name")).toMatch("radio");
+    expect(secondColumn.querySelectorAll("input")[0].getAttribute("type")).toMatch("radio");
+    expect(secondColumn.querySelectorAll("input")[0].getAttribute("value")).toMatch("no");
+
+    expect(secondColumn.querySelectorAll("label").length).not.toBe(0);
+    expect(secondColumn.querySelectorAll("label")[0].id).toMatch("ag-radio-no-label");
+    expect(secondColumn.querySelectorAll("label")[0].className.indexOf("ag-radio-no-label")).not.toBe(0);
+    expect(secondColumn.querySelectorAll("label")[0].innerHTML).toMatch("No, I am not of legal age.");
+    expect(secondColumn.querySelectorAll("label")[0].getAttribute("for")).toMatch("ag-radio-no");
+
+  });
+
+  it("Should create a radio element with custom settings", () => {
+
+    let radio = modal.generateRadio({
+      error: {
+        id: "dummyId",
+        tagName: "random",
+        content: "This is some test content",
+        classes: [
+          "testClassA",
+          "testClassB"
+        ],
+        attributes: {
+          testAttributeA: "testValueA",
+          testAttributeB: "testValueB"
+        }
+      },
+      yes: {
+        input: {
+          id: "dummyId",
+          tagName: "random",
+          content: "This is some test content",
+          classes: [
+            "testClassA",
+            "testClassB"
+          ],
+          attributes: {
+            testAttributeA: "testValueA",
+            testAttributeB: "testValueB"
+          }
+        },
+        label: {
+          id: "dummyId",
+          tagName: "random",
+          content: "This is some test content",
+          classes: [
+            "testClassA",
+            "testClassB"
+          ],
+          attributes: {
+            testAttributeA: "testValueA",
+            testAttributeB: "testValueB"
+          }
+        },
+      },
+      no: {
+        input: {
+          id: "dummyId",
+          tagName: "random",
+          content: "This is some test content",
+          classes: [
+            "testClassA",
+            "testClassB"
+          ],
+          attributes: {
+            testAttributeA: "testValueA",
+            testAttributeB: "testValueB"
+          }
+        },
+        label: {
+          id: "dummyId",
+          tagName: "random",
+          content: "This is some test content",
+          classes: [
+            "testClassA",
+            "testClassB"
+          ],
+          attributes: {
+            testAttributeA: "testValueA",
+            testAttributeB: "testValueB"
+          }
+        },
+      }
+    });
+
+    expect(radio.className.indexOf("ag-modal-content-row")).not.toBe(-1);
+    expect(radio.querySelectorAll("p").length).not.toBe(0);
+    expect(radio.querySelectorAll("random").length).toBe(0);
+    expect(radio.querySelectorAll("p")[0].id).toMatch("ag-radio-error");
+    expect(radio.querySelectorAll("p")[0].className.indexOf("ag-radio-error")).not.toBe(-1);
+    expect(radio.querySelectorAll("p")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(radio.querySelectorAll("p")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(radio.querySelectorAll("p")[0].innerHTML).toMatch("This is some test content");
+    expect(radio.querySelectorAll("p")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(radio.querySelectorAll("p")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(radio.querySelectorAll("div").length).toBe(2);
+
+    let firstColumn = radio.querySelectorAll("div")[0];
+    let secondColumn = radio.querySelectorAll("div")[1];
+
+    expect(firstColumn.className.indexOf("ag-modal-content-column")).not.toBe(-1);
+    expect(secondColumn.className.indexOf("ag-modal-content-column")).not.toBe(-1);
+
+    expect(firstColumn.querySelectorAll("random").length).toBe(0);
+
+    expect(firstColumn.querySelectorAll("input").length).not.toBe(0);
+    expect(firstColumn.querySelectorAll("input")[0].id).toMatch("ag-radio-yes");
+    expect(firstColumn.querySelectorAll("input")[0].className.indexOf("ag-radio-yes")).not.toBe(0);
+    expect(firstColumn.querySelectorAll("input")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(firstColumn.querySelectorAll("input")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(firstColumn.querySelectorAll("input")[0].innerHTML).toMatch("");
+    expect(firstColumn.querySelectorAll("input")[0].getAttribute("name")).toMatch("radio");
+    expect(firstColumn.querySelectorAll("input")[0].getAttribute("type")).toMatch("radio");
+    expect(firstColumn.querySelectorAll("input")[0].getAttribute("value")).toMatch("yes");
+    expect(firstColumn.querySelectorAll("input")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(firstColumn.querySelectorAll("input")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(firstColumn.querySelectorAll("label").length).not.toBe(0);
+    expect(firstColumn.querySelectorAll("label")[0].id).toMatch("ag-radio-yes-label");
+    expect(firstColumn.querySelectorAll("label")[0].className.indexOf("ag-radio-yes-label")).not.toBe(0);
+    expect(firstColumn.querySelectorAll("label")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(firstColumn.querySelectorAll("label")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(firstColumn.querySelectorAll("label")[0].innerHTML).toMatch("This is some test content");
+    expect(firstColumn.querySelectorAll("label")[0].getAttribute("for")).toMatch("ag-radio-yes");
+    expect(firstColumn.querySelectorAll("label")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(firstColumn.querySelectorAll("label")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(secondColumn.querySelectorAll("input").length).not.toBe(0);
+    expect(secondColumn.querySelectorAll("input")[0].id).toMatch("ag-radio-no");
+    expect(secondColumn.querySelectorAll("input")[0].className.indexOf("ag-radio-no")).not.toBe(0);
+    expect(secondColumn.querySelectorAll("input")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(secondColumn.querySelectorAll("input")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(secondColumn.querySelectorAll("input")[0].innerHTML).toMatch("");
+    expect(secondColumn.querySelectorAll("input")[0].getAttribute("name")).toMatch("radio");
+    expect(secondColumn.querySelectorAll("input")[0].getAttribute("type")).toMatch("radio");
+    expect(secondColumn.querySelectorAll("input")[0].getAttribute("value")).toMatch("no");
+    expect(secondColumn.querySelectorAll("input")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(secondColumn.querySelectorAll("input")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(secondColumn.querySelectorAll("label").length).not.toBe(0);
+    expect(secondColumn.querySelectorAll("label")[0].id).toMatch("ag-radio-no-label");
+    expect(secondColumn.querySelectorAll("label")[0].className.indexOf("ag-radio-no-label")).not.toBe(0);
+    expect(secondColumn.querySelectorAll("label")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(secondColumn.querySelectorAll("label")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(secondColumn.querySelectorAll("label")[0].innerHTML).toMatch("This is some test content");
+    expect(secondColumn.querySelectorAll("label")[0].getAttribute("for")).toMatch("ag-radio-no");
+    expect(secondColumn.querySelectorAll("label")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(secondColumn.querySelectorAll("label")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+  });
+
+  it("Should create a date of birth input element with default settings", () => {
+
+    let dateOfBirth = modal.generateDateOfBirth();
+
+    expect(dateOfBirth.className.indexOf("ag-modal-content-row")).not.toBe(-1);
+    expect(dateOfBirth.querySelectorAll("p").length).not.toBe(0);
+    expect(dateOfBirth.querySelectorAll("p")[0].id).toMatch("ag-dob-error");
+    expect(dateOfBirth.querySelectorAll("p")[0].className.indexOf("ag-dob-error")).not.toBe(-1);
+    expect(dateOfBirth.querySelectorAll("p")[0].innerHTML).toMatch("Sorry, you must be of legal age to enter this site.");
+
+    expect(dateOfBirth.querySelectorAll("div").length).toBe(3);
+
+  });
+
+  it("Should create a date of birth input element with custom settings", () => {
+
+    let dateOfBirth = modal.generateDateOfBirth({
+      error: {
+        id: "dummyId",
+        tagName: "random",
+        content: "This is some test content",
+        classes: [
+          "testClassA",
+          "testClassB"
+        ],
+        attributes: {
+          testAttributeA: "testValueA",
+          testAttributeB: "testValueB"
+        }
+      },
+      day: {},
+      month: {},
+      year: {}
+    });
+
+    expect(dateOfBirth.className.indexOf("ag-modal-content-row")).not.toBe(-1);
+    expect(dateOfBirth.querySelectorAll("random").length).toBe(0);
+    expect(dateOfBirth.querySelectorAll("p").length).not.toBe(0);
+    expect(dateOfBirth.querySelectorAll("p")[0].id).toMatch("ag-dob-error");
+    expect(dateOfBirth.querySelectorAll("p")[0].className.indexOf("ag-dob-error")).not.toBe(-1);
+    expect(dateOfBirth.querySelectorAll("p")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(dateOfBirth.querySelectorAll("p")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(dateOfBirth.querySelectorAll("p")[0].innerHTML).toMatch("This is some test content");
+    expect(dateOfBirth.querySelectorAll("p")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(dateOfBirth.querySelectorAll("p")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(dateOfBirth.querySelectorAll("div").length).toBe(3);
+
+  });
+
+  it("Should create a day input element with default settings", () => {
+
+    let day = modal.generateDay();
+
+    expect(day.className.indexOf("ag-modal-content-column")).not.toBe(-1);
+
+    expect(day.querySelectorAll("label").length).not.toBe(0);
+    expect(day.querySelectorAll("label")[0].id).toMatch("ag-dob-day-label");
+    expect(day.querySelectorAll("label")[0].className.indexOf("ag-dob-day-label")).not.toBe(-1);
+    expect(day.querySelectorAll("label")[0].innerHTML).toMatch("Day:");
+    expect(day.querySelectorAll("label")[0].getAttribute("for")).toMatch("ag-dob-day");
+
+    expect(day.querySelectorAll("input").length).not.toBe(0);
+    expect(day.querySelectorAll("input")[0].id).toMatch("ag-dob-day");
+    expect(day.querySelectorAll("input")[0].className.indexOf("ag-dob-day")).not.toBe(-1);
+    expect(day.querySelectorAll("input")[0].innerHTML).toMatch("");
+    expect(day.querySelectorAll("input")[0].getAttribute("name")).toMatch("ag-dob-day");
+    expect(day.querySelectorAll("input")[0].getAttribute("placeholder")).toMatch("Day");
+    expect(day.querySelectorAll("input")[0].getAttribute("type")).toMatch("text");
+
+  });
+
+  it("Should create a day input element with custom settings", () => {
+
+    let day = modal.generateDay({
+      label: {
+        id: "dummyId",
+        tagName: "random",
+        content: "This is some test content",
+        classes: [
+          "testClassA",
+          "testClassB"
+        ],
+        attributes: {
+          testAttributeA: "testValueA",
+          testAttributeB: "testValueB"
+        }
+      },
+      input: {
+        id: "dummyId",
+        tagName: "random",
+        content: "This is some test content",
+        classes: [
+          "testClassA",
+          "testClassB"
+        ],
+        attributes: {
+          testAttributeA: "testValueA",
+          testAttributeB: "testValueB",
+          placeholder: "TestPlaceHolder"
+        }
+      }
+    });
+
+    expect(day.className.indexOf("ag-modal-content-column")).not.toBe(-1);
+
+    expect(day.querySelectorAll("random").length).toBe(0);
+
+    expect(day.querySelectorAll("label").length).not.toBe(0);
+    expect(day.querySelectorAll("label")[0].id).toMatch("ag-dob-day-label");
+    expect(day.querySelectorAll("label")[0].className.indexOf("ag-dob-day-label")).not.toBe(-1);
+    expect(day.querySelectorAll("label")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(day.querySelectorAll("label")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(day.querySelectorAll("label")[0].innerHTML).toMatch("This is some test content");
+    expect(day.querySelectorAll("label")[0].getAttribute("for")).toMatch("ag-dob-day");
+    expect(day.querySelectorAll("label")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(day.querySelectorAll("label")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(day.querySelectorAll("input").length).not.toBe(0);
+    expect(day.querySelectorAll("input")[0].id).toMatch("ag-dob-day");
+    expect(day.querySelectorAll("input")[0].className.indexOf("ag-dob-day")).not.toBe(-1);
+    expect(day.querySelectorAll("input")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(day.querySelectorAll("input")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(day.querySelectorAll("input")[0].innerHTML).toMatch("");
+    expect(day.querySelectorAll("input")[0].getAttribute("name")).toMatch("ag-dob-day");
+    expect(day.querySelectorAll("input")[0].getAttribute("placeholder")).toMatch("TestPlaceHolder");
+    expect(day.querySelectorAll("input")[0].getAttribute("type")).toMatch("text");
+    expect(day.querySelectorAll("input")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(day.querySelectorAll("input")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+  });
+
+  it("Should create a month input element with default settings", () => {
+
+    let month = modal.generateMonth();
+
+    expect(month.className.indexOf("ag-modal-content-column")).not.toBe(-1);
+
+    expect(month.querySelectorAll("label").length).not.toBe(0);
+    expect(month.querySelectorAll("label")[0].id).toMatch("ag-dob-month-label");
+    expect(month.querySelectorAll("label")[0].className.indexOf("ag-dob-month-label")).not.toBe(-1);
+    expect(month.querySelectorAll("label")[0].innerHTML).toMatch("Month:");
+    expect(month.querySelectorAll("label")[0].getAttribute("for")).toMatch("ag-dob-month");
+
+    expect(month.querySelectorAll("input").length).not.toBe(0);
+    expect(month.querySelectorAll("input")[0].id).toMatch("ag-dob-month");
+    expect(month.querySelectorAll("input")[0].className.indexOf("ag-dob-month")).not.toBe(-1);
+    expect(month.querySelectorAll("input")[0].innerHTML).toMatch("");
+    expect(month.querySelectorAll("input")[0].getAttribute("name")).toMatch("ag-dob-month");
+    expect(month.querySelectorAll("input")[0].getAttribute("placeholder")).toMatch("Month");
+    expect(month.querySelectorAll("input")[0].getAttribute("type")).toMatch("text");
+
+  });
+
+  it("Should create a month input element with custom settings", () => {
+
+    let month = modal.generateMonth({
+      label: {
+        id: "dummyId",
+        tagName: "random",
+        content: "This is some test content",
+        classes: [
+          "testClassA",
+          "testClassB"
+        ],
+        attributes: {
+          testAttributeA: "testValueA",
+          testAttributeB: "testValueB"
+        }
+      },
+      input: {
+        id: "dummyId",
+        tagName: "random",
+        content: "This is some test content",
+        classes: [
+          "testClassA",
+          "testClassB"
+        ],
+        attributes: {
+          testAttributeA: "testValueA",
+          testAttributeB: "testValueB",
+          placeholder: "TestPlaceHolder"
+        }
+      }
+    });
+
+    expect(month.className.indexOf("ag-modal-content-column")).not.toBe(-1);
+
+    expect(month.querySelectorAll("random").length).toBe(0);
+
+    expect(month.querySelectorAll("label").length).not.toBe(0);
+    expect(month.querySelectorAll("label")[0].id).toMatch("ag-dob-month-label");
+    expect(month.querySelectorAll("label")[0].className.indexOf("ag-dob-month-label")).not.toBe(-1);
+    expect(month.querySelectorAll("label")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(month.querySelectorAll("label")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(month.querySelectorAll("label")[0].innerHTML).toMatch("This is some test content");
+    expect(month.querySelectorAll("label")[0].getAttribute("for")).toMatch("ag-dob-month");
+    expect(month.querySelectorAll("label")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(month.querySelectorAll("label")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(month.querySelectorAll("input").length).not.toBe(0);
+    expect(month.querySelectorAll("input")[0].id).toMatch("ag-dob-month");
+    expect(month.querySelectorAll("input")[0].className.indexOf("ag-dob-month")).not.toBe(-1);
+    expect(month.querySelectorAll("input")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(month.querySelectorAll("input")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(month.querySelectorAll("input")[0].innerHTML).toMatch("");
+    expect(month.querySelectorAll("input")[0].getAttribute("name")).toMatch("ag-dob-month");
+    expect(month.querySelectorAll("input")[0].getAttribute("placeholder")).toMatch("TestPlaceHolder");
+    expect(month.querySelectorAll("input")[0].getAttribute("type")).toMatch("text");
+    expect(month.querySelectorAll("input")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(month.querySelectorAll("input")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+  });
+
+  it("Should create a year input element with default settings", () => {
+
+    let year = modal.generateYear();
+
+    expect(year.className.indexOf("ag-modal-content-column")).not.toBe(-1);
+
+    expect(year.querySelectorAll("label").length).not.toBe(0);
+    expect(year.querySelectorAll("label")[0].id).toMatch("ag-dob-year-label");
+    expect(year.querySelectorAll("label")[0].className.indexOf("ag-dob-year-label")).not.toBe(-1);
+    expect(year.querySelectorAll("label")[0].innerHTML).toMatch("Year:");
+    expect(year.querySelectorAll("label")[0].getAttribute("for")).toMatch("ag-dob-year");
+
+    expect(year.querySelectorAll("input").length).not.toBe(0);
+    expect(year.querySelectorAll("input")[0].id).toMatch("ag-dob-year");
+    expect(year.querySelectorAll("input")[0].className.indexOf("ag-dob-year")).not.toBe(-1);
+    expect(year.querySelectorAll("input")[0].innerHTML).toMatch("");
+    expect(year.querySelectorAll("input")[0].getAttribute("name")).toMatch("ag-dob-year");
+    expect(year.querySelectorAll("input")[0].getAttribute("placeholder")).toMatch("Year");
+    expect(year.querySelectorAll("input")[0].getAttribute("type")).toMatch("text");
+
+  });
+
+  it("Should create a year input element with custom settings", () => {
+
+    let year = modal.generateYear({
+      label: {
+        id: "dummyId",
+        tagName: "random",
+        content: "This is some test content",
+        classes: [
+          "testClassA",
+          "testClassB"
+        ],
+        attributes: {
+          testAttributeA: "testValueA",
+          testAttributeB: "testValueB"
+        }
+      },
+      input: {
+        id: "dummyId",
+        tagName: "random",
+        content: "This is some test content",
+        classes: [
+          "testClassA",
+          "testClassB"
+        ],
+        attributes: {
+          testAttributeA: "testValueA",
+          testAttributeB: "testValueB",
+          placeholder: "TestPlaceHolder"
+        }
+      }
+    });
+
+    expect(year.className.indexOf("ag-modal-content-column")).not.toBe(-1);
+
+    expect(year.querySelectorAll("random").length).toBe(0);
+
+    expect(year.querySelectorAll("label").length).not.toBe(0);
+    expect(year.querySelectorAll("label")[0].id).toMatch("ag-dob-year-label");
+    expect(year.querySelectorAll("label")[0].className.indexOf("ag-dob-year-label")).not.toBe(-1);
+    expect(year.querySelectorAll("label")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(year.querySelectorAll("label")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(year.querySelectorAll("label")[0].innerHTML).toMatch("This is some test content");
+    expect(year.querySelectorAll("label")[0].getAttribute("for")).toMatch("ag-dob-year");
+    expect(year.querySelectorAll("label")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(year.querySelectorAll("label")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(year.querySelectorAll("input").length).not.toBe(0);
+    expect(year.querySelectorAll("input")[0].id).toMatch("ag-dob-year");
+    expect(year.querySelectorAll("input")[0].className.indexOf("ag-dob-year")).not.toBe(-1);
+    expect(year.querySelectorAll("input")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(year.querySelectorAll("input")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(year.querySelectorAll("input")[0].innerHTML).toMatch("");
+    expect(year.querySelectorAll("input")[0].getAttribute("name")).toMatch("ag-dob-year");
+    expect(year.querySelectorAll("input")[0].getAttribute("placeholder")).toMatch("TestPlaceHolder");
+    expect(year.querySelectorAll("input")[0].getAttribute("type")).toMatch("text");
+    expect(year.querySelectorAll("input")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(year.querySelectorAll("input")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+  });
+
+  it("Should create a single checkbox element with default settings", () => {
+
+    let checkbox = modal.generateCheckbox(
+      {
+        error: {},
+        input: {},
+        label: {}
+      }
+    , 0);
+
+    expect(checkbox.tagName).toMatch("LABEL");
+    expect(checkbox.children.length).toBe(3);
+    expect(checkbox.className.indexOf("ag-checkbox-container")).not.toBe(-1);
+    expect(checkbox.getAttribute("for")).toMatch("ag-checkbox-0");
+
+    expect(checkbox.querySelectorAll("p")[0].id).toMatch("ag-checkbox-0-error");
+    expect(checkbox.querySelectorAll("p")[0].innerHTML).toMatch("Sorry, you are required to check this checkbox.");
+
+    expect(checkbox.querySelectorAll("input")[0].id).toMatch("ag-checkbox-0");
+    expect(checkbox.querySelectorAll("input")[0].innerHTML).toMatch("");
+    expect(checkbox.querySelectorAll("input")[0].getAttribute("name")).toMatch("ag-checkbox-0");
+    expect(checkbox.querySelectorAll("input")[0].getAttribute("type")).toMatch("checkbox");
+
+    expect(checkbox.querySelectorAll("span")[0].id).toMatch("ag-checkbox-0-label");
+    expect(checkbox.querySelectorAll("span")[0].innerHTML).toMatch("Please check this");
+
+  });
+
+  it("Should create a single checkbox element with custom settings", () => {
+
+    let checkbox = modal.generateCheckbox(
+      {
+        error: {
+          id: "dummyId",
+          tagName: "random",
+          content: "This is some test content",
+          classes: [
+            "testClassA",
+            "testClassB"
+          ],
+          attributes: {
+            testAttributeA: "testValueA",
+            testAttributeB: "testValueB",
+            placeholder: "TestPlaceHolder"
+          }
+        },
+        input: {
+          id: "dummyId",
+          tagName: "random",
+          content: "This is some test content",
+          classes: [
+            "testClassA",
+            "testClassB"
+          ],
+          attributes: {
+            testAttributeA: "testValueA",
+            testAttributeB: "testValueB",
+            placeholder: "TestPlaceHolder"
+          }
+        },
+        label: {
+          id: "dummyId",
+          tagName: "random",
+          content: "This is some test content",
+          classes: [
+            "testClassA",
+            "testClassB"
+          ],
+          attributes: {
+            testAttributeA: "testValueA",
+            testAttributeB: "testValueB",
+            placeholder: "TestPlaceHolder"
+          }
+        }
+      }
+    , 0);
+
+    expect(checkbox.tagName).toMatch("LABEL");
+    expect(checkbox.children.length).toBe(3);
+    expect(checkbox.className.indexOf("ag-checkbox-container")).not.toBe(-1);
+    expect(checkbox.getAttribute("for")).toMatch("ag-checkbox-0");
+
+    expect(checkbox.querySelectorAll("random").length).toBe(0);
+
+    expect(checkbox.querySelectorAll("p")[0].id).toMatch("ag-checkbox-0-error");
+    expect(checkbox.querySelectorAll("p")[0].innerHTML).toMatch("This is some test content");
+    expect(checkbox.querySelectorAll("p")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(checkbox.querySelectorAll("p")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(checkbox.querySelectorAll("p")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(checkbox.querySelectorAll("p")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(checkbox.querySelectorAll("input")[0].id).toMatch("ag-checkbox-0");
+    expect(checkbox.querySelectorAll("input")[0].innerHTML).toMatch("");
+    expect(checkbox.querySelectorAll("input")[0].getAttribute("name")).toMatch("ag-checkbox-0");
+    expect(checkbox.querySelectorAll("input")[0].getAttribute("type")).toMatch("checkbox");
+    expect(checkbox.querySelectorAll("input")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(checkbox.querySelectorAll("input")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(checkbox.querySelectorAll("input")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(checkbox.querySelectorAll("input")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(checkbox.querySelectorAll("span")[0].id).toMatch("ag-checkbox-0-label");
+    expect(checkbox.querySelectorAll("span")[0].innerHTML).toMatch("This is some test content");
+    expect(checkbox.querySelectorAll("span")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(checkbox.querySelectorAll("span")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(checkbox.querySelectorAll("span")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(checkbox.querySelectorAll("span")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+  });
+
+  it("Should create multiple checkbox elements with default settings", () => {
+
+    let checkboxes = modal.generateCheckboxes([
+      {
+        error: {},
+        input: {},
+        label: {}
+      },
+      {
+        error: {},
+        input: {},
+        label: {}
+      },
+      {
+        error: {},
+        input: {},
+        label: {}
+      }
+    ]);
+
+    expect(checkboxes.tagName).toMatch("DIV");
+    expect(checkboxes.children.length).toBe(3);
+
+    expect(checkboxes.children[0].tagName).toMatch("LABEL");
+    expect(checkboxes.children[0].className.indexOf("ag-checkbox-container")).not.toBe(-1);
+    expect(checkboxes.children[0].getAttribute("for")).toMatch("ag-checkbox-0");
+    expect(checkboxes.children[0].children.length).toBe(3);
+
+    expect(checkboxes.children[0].querySelectorAll("p")[0].id).toMatch("ag-checkbox-0-error");
+    expect(checkboxes.children[0].querySelectorAll("p")[0].innerHTML).toMatch("Sorry, you are required to check this checkbox.");
+
+    expect(checkboxes.children[0].querySelectorAll("input")[0].id).toMatch("ag-checkbox-0");
+    expect(checkboxes.children[0].querySelectorAll("input")[0].innerHTML).toMatch("");
+    expect(checkboxes.children[0].querySelectorAll("input")[0].getAttribute("name")).toMatch("ag-checkbox-0");
+    expect(checkboxes.children[0].querySelectorAll("input")[0].getAttribute("type")).toMatch("checkbox");
+
+    expect(checkboxes.children[0].querySelectorAll("span")[0].id).toMatch("ag-checkbox-0-label");
+    expect(checkboxes.children[0].querySelectorAll("span")[0].innerHTML).toMatch("Please check this");
+
+    expect(checkboxes.children[1].tagName).toMatch("LABEL");
+    expect(checkboxes.children[1].className.indexOf("ag-checkbox-container")).not.toBe(-1);
+    expect(checkboxes.children[1].getAttribute("for")).toMatch("ag-checkbox-1");
+    expect(checkboxes.children[1].children.length).toBe(3);
+
+    expect(checkboxes.children[1].querySelectorAll("p")[0].id).toMatch("ag-checkbox-1-error");
+    expect(checkboxes.children[1].querySelectorAll("p")[0].innerHTML).toMatch("Sorry, you are required to check this checkbox.");
+
+    expect(checkboxes.children[1].querySelectorAll("input")[0].id).toMatch("ag-checkbox-1");
+    expect(checkboxes.children[1].querySelectorAll("input")[0].innerHTML).toMatch("");
+    expect(checkboxes.children[1].querySelectorAll("input")[0].getAttribute("name")).toMatch("ag-checkbox-1");
+    expect(checkboxes.children[1].querySelectorAll("input")[0].getAttribute("type")).toMatch("checkbox");
+
+    expect(checkboxes.children[1].querySelectorAll("span")[0].id).toMatch("ag-checkbox-1-label");
+    expect(checkboxes.children[1].querySelectorAll("span")[0].innerHTML).toMatch("Please check this");
+
+    expect(checkboxes.children[2].tagName).toMatch("LABEL");
+    expect(checkboxes.children[2].className.indexOf("ag-checkbox-container")).not.toBe(-1);
+    expect(checkboxes.children[2].getAttribute("for")).toMatch("ag-checkbox-2");
+    expect(checkboxes.children[2].children.length).toBe(3);
+
+    expect(checkboxes.children[2].querySelectorAll("p")[0].id).toMatch("ag-checkbox-2-error");
+    expect(checkboxes.children[2].querySelectorAll("p")[0].innerHTML).toMatch("Sorry, you are required to check this checkbox.");
+
+    expect(checkboxes.children[2].querySelectorAll("input")[0].id).toMatch("ag-checkbox-2");
+    expect(checkboxes.children[2].querySelectorAll("input")[0].innerHTML).toMatch("");
+    expect(checkboxes.children[2].querySelectorAll("input")[0].getAttribute("name")).toMatch("ag-checkbox-2");
+    expect(checkboxes.children[2].querySelectorAll("input")[0].getAttribute("type")).toMatch("checkbox");
+
+    expect(checkboxes.children[2].querySelectorAll("span")[0].id).toMatch("ag-checkbox-2-label");
+    expect(checkboxes.children[2].querySelectorAll("span")[0].innerHTML).toMatch("Please check this");
+
+  });
+
+  it("Should create multiple checkbox elements with custom settings", () => {
+
+    let checkboxes = modal.generateCheckboxes([
+      {
+        error: {
+          id: "dummyId",
+          tagName: "random",
+          content: "This is some test content",
+          classes: [
+            "testClassA",
+            "testClassB"
+          ],
+          attributes: {
+            testAttributeA: "testValueA",
+            testAttributeB: "testValueB",
+            placeholder: "TestPlaceHolder"
+          }
+        },
+        input: {
+          id: "dummyId",
+          tagName: "random",
+          content: "This is some test content",
+          classes: [
+            "testClassA",
+            "testClassB"
+          ],
+          attributes: {
+            testAttributeA: "testValueA",
+            testAttributeB: "testValueB",
+            placeholder: "TestPlaceHolder"
+          }
+        },
+        label: {
+          id: "dummyId",
+          tagName: "random",
+          content: "This is some test content",
+          classes: [
+            "testClassA",
+            "testClassB"
+          ],
+          attributes: {
+            testAttributeA: "testValueA",
+            testAttributeB: "testValueB",
+            placeholder: "TestPlaceHolder"
+          }
+        }
+      },
+      {
+        error: {
+          id: "dummyId",
+          tagName: "random",
+          content: "This is some test content",
+          classes: [
+            "testClassA",
+            "testClassB"
+          ],
+          attributes: {
+            testAttributeA: "testValueA",
+            testAttributeB: "testValueB",
+            placeholder: "TestPlaceHolder"
+          }
+        },
+        input: {
+          id: "dummyId",
+          tagName: "random",
+          content: "This is some test content",
+          classes: [
+            "testClassA",
+            "testClassB"
+          ],
+          attributes: {
+            testAttributeA: "testValueA",
+            testAttributeB: "testValueB",
+            placeholder: "TestPlaceHolder"
+          }
+        },
+        label: {
+          id: "dummyId",
+          tagName: "random",
+          content: "This is some test content",
+          classes: [
+            "testClassA",
+            "testClassB"
+          ],
+          attributes: {
+            testAttributeA: "testValueA",
+            testAttributeB: "testValueB",
+            placeholder: "TestPlaceHolder"
+          }
+        }
+      },
+      {
+        error: {
+          id: "dummyId",
+          tagName: "random",
+          content: "This is some test content",
+          classes: [
+            "testClassA",
+            "testClassB"
+          ],
+          attributes: {
+            testAttributeA: "testValueA",
+            testAttributeB: "testValueB",
+            placeholder: "TestPlaceHolder"
+          }
+        },
+        input: {
+          id: "dummyId",
+          tagName: "random",
+          content: "This is some test content",
+          classes: [
+            "testClassA",
+            "testClassB"
+          ],
+          attributes: {
+            testAttributeA: "testValueA",
+            testAttributeB: "testValueB",
+            placeholder: "TestPlaceHolder"
+          }
+        },
+        label: {
+          id: "dummyId",
+          tagName: "random",
+          content: "This is some test content",
+          classes: [
+            "testClassA",
+            "testClassB"
+          ],
+          attributes: {
+            testAttributeA: "testValueA",
+            testAttributeB: "testValueB",
+            placeholder: "TestPlaceHolder"
+          }
+        }
+      }
+    ]);
+
+    expect(checkboxes.tagName).toMatch("DIV");
+    expect(checkboxes.children.length).toBe(3);
+
+    expect(checkboxes.children[0].tagName).toMatch("LABEL");
+    expect(checkboxes.children[0].className.indexOf("ag-checkbox-container")).not.toBe(-1);
+    expect(checkboxes.children[0].getAttribute("for")).toMatch("ag-checkbox-0");
+    expect(checkboxes.children[0].children.length).toBe(3);
+    expect(checkboxes.children[0].querySelectorAll("random").length).toBe(0);
+
+    expect(checkboxes.children[0].querySelectorAll("p")[0].id).toMatch("ag-checkbox-0-error");
+    expect(checkboxes.children[0].querySelectorAll("p")[0].innerHTML).toMatch("This is some test content");
+    expect(checkboxes.children[0].querySelectorAll("p")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(checkboxes.children[0].querySelectorAll("p")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(checkboxes.children[0].querySelectorAll("p")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(checkboxes.children[0].querySelectorAll("p")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(checkboxes.children[0].querySelectorAll("input")[0].id).toMatch("ag-checkbox-0");
+    expect(checkboxes.children[0].querySelectorAll("input")[0].innerHTML).toMatch("");
+    expect(checkboxes.children[0].querySelectorAll("input")[0].getAttribute("name")).toMatch("ag-checkbox-0");
+    expect(checkboxes.children[0].querySelectorAll("input")[0].getAttribute("type")).toMatch("checkbox");
+    expect(checkboxes.children[0].querySelectorAll("input")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(checkboxes.children[0].querySelectorAll("input")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(checkboxes.children[0].querySelectorAll("input")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(checkboxes.children[0].querySelectorAll("input")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(checkboxes.children[0].querySelectorAll("span")[0].id).toMatch("ag-checkbox-0-label");
+    expect(checkboxes.children[0].querySelectorAll("span")[0].innerHTML).toMatch("This is some test content");
+    expect(checkboxes.children[0].querySelectorAll("span")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(checkboxes.children[0].querySelectorAll("span")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(checkboxes.children[0].querySelectorAll("span")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(checkboxes.children[0].querySelectorAll("span")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(checkboxes.children[1].tagName).toMatch("LABEL");
+    expect(checkboxes.children[1].className.indexOf("ag-checkbox-container")).not.toBe(-1);
+    expect(checkboxes.children[1].getAttribute("for")).toMatch("ag-checkbox-1");
+    expect(checkboxes.children[1].children.length).toBe(3);
+    expect(checkboxes.children[1].querySelectorAll("random").length).toBe(0);
+
+    expect(checkboxes.children[1].querySelectorAll("p")[0].id).toMatch("ag-checkbox-1-error");
+    expect(checkboxes.children[1].querySelectorAll("p")[0].innerHTML).toMatch("This is some test content");
+    expect(checkboxes.children[1].querySelectorAll("p")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(checkboxes.children[1].querySelectorAll("p")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(checkboxes.children[1].querySelectorAll("p")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(checkboxes.children[1].querySelectorAll("p")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(checkboxes.children[1].querySelectorAll("input")[0].id).toMatch("ag-checkbox-1");
+    expect(checkboxes.children[1].querySelectorAll("input")[0].innerHTML).toMatch("");
+    expect(checkboxes.children[1].querySelectorAll("input")[0].getAttribute("name")).toMatch("ag-checkbox-1");
+    expect(checkboxes.children[1].querySelectorAll("input")[0].getAttribute("type")).toMatch("checkbox");
+    expect(checkboxes.children[1].querySelectorAll("input")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(checkboxes.children[1].querySelectorAll("input")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(checkboxes.children[1].querySelectorAll("input")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(checkboxes.children[1].querySelectorAll("input")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(checkboxes.children[1].querySelectorAll("span")[0].id).toMatch("ag-checkbox-1-label");
+    expect(checkboxes.children[1].querySelectorAll("span")[0].innerHTML).toMatch("This is some test content");
+    expect(checkboxes.children[1].querySelectorAll("span")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(checkboxes.children[1].querySelectorAll("span")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(checkboxes.children[1].querySelectorAll("span")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(checkboxes.children[1].querySelectorAll("span")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(checkboxes.children[2].tagName).toMatch("LABEL");
+    expect(checkboxes.children[2].className.indexOf("ag-checkbox-container")).not.toBe(-1);
+    expect(checkboxes.children[2].getAttribute("for")).toMatch("ag-checkbox-2");
+    expect(checkboxes.children[2].children.length).toBe(3);
+    expect(checkboxes.children[2].querySelectorAll("random").length).toBe(0);
+
+    expect(checkboxes.children[2].querySelectorAll("p")[0].id).toMatch("ag-checkbox-2-error");
+    expect(checkboxes.children[2].querySelectorAll("p")[0].innerHTML).toMatch("This is some test content");
+    expect(checkboxes.children[2].querySelectorAll("p")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(checkboxes.children[2].querySelectorAll("p")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(checkboxes.children[2].querySelectorAll("p")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(checkboxes.children[2].querySelectorAll("p")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(checkboxes.children[2].querySelectorAll("input")[0].id).toMatch("ag-checkbox-2");
+    expect(checkboxes.children[2].querySelectorAll("input")[0].innerHTML).toMatch("");
+    expect(checkboxes.children[2].querySelectorAll("input")[0].getAttribute("name")).toMatch("ag-checkbox-2");
+    expect(checkboxes.children[2].querySelectorAll("input")[0].getAttribute("type")).toMatch("checkbox");
+    expect(checkboxes.children[2].querySelectorAll("input")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(checkboxes.children[2].querySelectorAll("input")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(checkboxes.children[2].querySelectorAll("input")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(checkboxes.children[2].querySelectorAll("input")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(checkboxes.children[2].querySelectorAll("span")[0].id).toMatch("ag-checkbox-2-label");
+    expect(checkboxes.children[2].querySelectorAll("span")[0].innerHTML).toMatch("This is some test content");
+    expect(checkboxes.children[2].querySelectorAll("span")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(checkboxes.children[2].querySelectorAll("span")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(checkboxes.children[2].querySelectorAll("span")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(checkboxes.children[2].querySelectorAll("span")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+  });
+
+  it("Should create a country element with default settings", () => {
+
+    let country = modal.generateCountry();
+
+    expect(country.className.indexOf("ag-modal-content-row")).not.toBe(-1);
+
+    expect(country.querySelectorAll("p").length).not.toBe(0);
+    expect(country.children[0].id).toMatch("ag-country-error");
+    expect(country.children[0].className.indexOf("ag-country-error")).not.toBe(-1);
+    expect(country.children[0].innerHTML).toMatch("Sorry, this site does not allow access from the country you have selected.");
+
+    expect(country.querySelectorAll("label").length).not.toBe(0);
+    expect(country.children[1].id).toMatch("ag-country-label");
+    expect(country.children[1].className.indexOf("ag-country-label")).not.toBe(-1);
+    expect(country.children[1].getAttribute("for")).toMatch("ag-country");
+    expect(country.children[1].innerHTML).toMatch("Select the country you are in:");
+
+    expect(country.querySelectorAll("select").length).not.toBe(0);
+    expect(country.children[2].id).toMatch("ag-country");
+    expect(country.children[2].className.indexOf("ag-country")).not.toBe(-1);
+    expect(country.children[2].getAttribute("name")).toMatch("ag-country");
+    expect(country.children[2].innerHTML.indexOf("<option")).not.toBe(-1);
+
+  });
+
+  it("Should create a country element with custom settings", () => {
+
+    let country = modal.generateCountry({
+      error: {
+        id: "dummyId",
+        tagName: "random",
+        content: "This is some test content",
+        classes: [
+          "testClassA",
+          "testClassB"
+        ],
+        attributes: {
+          testAttributeA: "testValueA",
+          testAttributeB: "testValueB"
+        }
+      },
+      label: {
+        id: "dummyId",
+        tagName: "random",
+        content: "This is some test content",
+        classes: [
+          "testClassA",
+          "testClassB"
+        ],
+        attributes: {
+          testAttributeA: "testValueA",
+          testAttributeB: "testValueB"
+        }
+      },
+      input: {
+        id: "dummyId",
+        tagName: "random",
+        content: "This is some test content",
+        classes: [
+          "testClassA",
+          "testClassB"
+        ],
+        attributes: {
+          testAttributeA: "testValueA",
+          testAttributeB: "testValueB"
+        }
+      }
+    });
+
+    expect(country.className.indexOf("ag-modal-content-row")).not.toBe(-1);
+    expect(country.querySelectorAll("random").length).toBe(0);
+
+    expect(country.querySelectorAll("p").length).not.toBe(0);
+    expect(country.children[0].id).toMatch("ag-country-error");
+    expect(country.children[0].className.indexOf("ag-country-error")).not.toBe(-1);
+    expect(country.children[0].innerHTML).toMatch("This is some test content");
+    expect(country.children[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(country.children[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(country.children[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(country.children[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(country.querySelectorAll("label").length).not.toBe(0);
+    expect(country.children[1].id).toMatch("ag-country-label");
+    expect(country.children[1].className.indexOf("ag-country-label")).not.toBe(-1);
+    expect(country.children[1].getAttribute("for")).toMatch("ag-country");
+    expect(country.children[1].innerHTML).toMatch("This is some test content");
+    expect(country.children[1].className.indexOf("testClassA")).not.toBe(-1);
+    expect(country.children[1].className.indexOf("testClassB")).not.toBe(-1);
+    expect(country.children[1].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(country.children[1].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(country.querySelectorAll("select").length).not.toBe(0);
+    expect(country.children[2].id).toMatch("ag-country");
+    expect(country.children[2].className.indexOf("ag-country")).not.toBe(-1);
+    expect(country.children[2].getAttribute("name")).toMatch("ag-country");
+    expect(country.children[2].innerHTML.indexOf("<option")).not.toBe(-1);
+    expect(country.children[2].className.indexOf("testClassA")).not.toBe(-1);
+    expect(country.children[2].className.indexOf("testClassB")).not.toBe(-1);
+    expect(country.children[2].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(country.children[2].getAttribute("testAttributeB")).toMatch("testValueB");
+
+  });
+
+  it("Should create a language element with default settings", () => {
+
+    let language = modal.generateLanguage();
+
+    expect(language.className.indexOf("ag-modal-content-row")).not.toBe(-1);
+
+    expect(language.querySelectorAll("p").length).not.toBe(0);
+    expect(language.children[0].id).toMatch("ag-language-error");
+    expect(language.children[0].className.indexOf("ag-language-error")).not.toBe(-1);
+    expect(language.children[0].innerHTML).toMatch("Sorry, the language you have selected is not supported.");
+
+    expect(language.querySelectorAll("label").length).not.toBe(0);
+    expect(language.children[1].id).toMatch("ag-language-label");
+    expect(language.children[1].className.indexOf("ag-language-label")).not.toBe(-1);
+    expect(language.children[1].getAttribute("for")).toMatch("ag-language");
+    expect(language.children[1].innerHTML).toMatch("Select your language:");
+
+    expect(language.querySelectorAll("select").length).not.toBe(0);
+    expect(language.children[2].id).toMatch("ag-language");
+    expect(language.children[2].className.indexOf("ag-language")).not.toBe(-1);
+    expect(language.children[2].getAttribute("name")).toMatch("ag-language");
+    expect(language.children[2].innerHTML.indexOf("<option")).not.toBe(-1);
+
+  });
+
+  it("Should create a language element with custom settings", () => {
+
+    let language = modal.generateLanguage({
+      error: {
+        id: "dummyId",
+        tagName: "random",
+        content: "This is some test content",
+        classes: [
+          "testClassA",
+          "testClassB"
+        ],
+        attributes: {
+          testAttributeA: "testValueA",
+          testAttributeB: "testValueB"
+        }
+      },
+      label: {
+        id: "dummyId",
+        tagName: "random",
+        content: "This is some test content",
+        classes: [
+          "testClassA",
+          "testClassB"
+        ],
+        attributes: {
+          testAttributeA: "testValueA",
+          testAttributeB: "testValueB"
+        }
+      },
+      input: {
+        id: "dummyId",
+        tagName: "random",
+        content: "This is some test content",
+        classes: [
+          "testClassA",
+          "testClassB"
+        ],
+        attributes: {
+          testAttributeA: "testValueA",
+          testAttributeB: "testValueB"
+        }
+      }
+    });
+
+    expect(language.className.indexOf("ag-modal-content-row")).not.toBe(-1);
+    expect(language.querySelectorAll("random").length).toBe(0);
+
+    expect(language.querySelectorAll("p").length).not.toBe(0);
+    expect(language.children[0].id).toMatch("ag-language-error");
+    expect(language.children[0].className.indexOf("ag-language-error")).not.toBe(-1);
+    expect(language.children[0].innerHTML).toMatch("This is some test content");
+    expect(language.children[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(language.children[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(language.children[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(language.children[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(language.querySelectorAll("label").length).not.toBe(0);
+    expect(language.children[1].id).toMatch("ag-language-label");
+    expect(language.children[1].className.indexOf("ag-language-label")).not.toBe(-1);
+    expect(language.children[1].getAttribute("for")).toMatch("ag-language");
+    expect(language.children[1].innerHTML).toMatch("This is some test content");
+    expect(language.children[1].className.indexOf("testClassA")).not.toBe(-1);
+    expect(language.children[1].className.indexOf("testClassB")).not.toBe(-1);
+    expect(language.children[1].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(language.children[1].getAttribute("testAttributeB")).toMatch("testValueB");
+
+    expect(language.querySelectorAll("select").length).not.toBe(0);
+    expect(language.children[2].id).toMatch("ag-language");
+    expect(language.children[2].className.indexOf("ag-language")).not.toBe(-1);
+    expect(language.children[2].getAttribute("name")).toMatch("ag-language");
+    expect(language.children[2].innerHTML.indexOf("<option")).not.toBe(-1);
+    expect(language.children[2].className.indexOf("testClassA")).not.toBe(-1);
+    expect(language.children[2].className.indexOf("testClassB")).not.toBe(-1);
+    expect(language.children[2].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(language.children[2].getAttribute("testAttributeB")).toMatch("testValueB");
+
+  });
+
+  it("Should create a button element with default settings", () => {
+
+    let button = modal.generateButton();
+
+    expect(button.className.indexOf("ag-modal-content-row")).not.toBe(-1);
+    expect(button.querySelectorAll("button").length).not.toBe(0);
+    expect(button.querySelectorAll("button")[0].id).toMatch("ag-button");
+    expect(button.querySelectorAll("button")[0].className.indexOf("ag-button")).not.toBe(-1);
+    expect(button.querySelectorAll("button")[0].getAttribute("type")).toMatch("button");
+    expect(button.querySelectorAll("button")[0].innerHTML).toMatch("Let me in");
+
+  });
+
+  it("Should create a button element with custom settings", () => {
+
+    let button = modal.generateButton({
+      id: "dummyId",
+      tagName: "random",
+      content: "This is some test content",
+      classes: [
+        "testClassA",
+        "testClassB"
+      ],
+      attributes: {
+        testAttributeA: "testValueA",
+        testAttributeB: "testValueB"
+      }
+    });
+
+    expect(button.className.indexOf("ag-modal-content-row")).not.toBe(-1);
+    expect(button.querySelectorAll("button").length).not.toBe(0);
+    expect(button.querySelectorAll("random").length).toBe(0);
+
+    expect(button.querySelectorAll("button")[0].id).toMatch("ag-button");
+    expect(button.querySelectorAll("button")[0].className.indexOf("ag-button")).not.toBe(-1);
+    expect(button.querySelectorAll("button")[0].getAttribute("type")).toMatch("button");
+    expect(button.querySelectorAll("button")[0].innerHTML).toMatch("This is some test content");
+    expect(button.querySelectorAll("button")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(button.querySelectorAll("button")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(button.querySelectorAll("button")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(button.querySelectorAll("button")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+  });
+
+  // it("Should create a disclaimer element with default settings", () => {
+  //
+  //   let disclaimer = modal.generateDisclaimer();
+  //
+  // });
+  //
+  // it("Should create a disclaimer element with custom settings", () => {
+  //
+  //   let disclaimer = modal.generateDisclaimer({});
+  //
+  // });
+  //
+  // it("Should create the elements in the correct order", () => {
+  //
+  // });
+
+  it("Should generate a select list", () => {
+
+    let list = {
+      key1: "value1",
+      key2: "value2",
+      key3: "value3",
+    };
+
+    let options = modal.generateSelectList(list);
+
+    expect(typeof(options)).toBe("string");
+    expect(options.indexOf("<option value=\"key1\">value1</option>")).not.toBe(-1);
+    expect(options.indexOf("<option value=\"key2\">value2</option>")).not.toBe(-1);
+    expect(options.indexOf("<option value=\"key3\">value3</option>")).not.toBe(-1);
+
+  });
+
+  it("Should get a list of all countries (in English)", () => {
+
+   let countries = modal.getCountryList();
+
+   // Choose some countries at random...
+   expect(countries["JE"]).toMatch("Jersey");
+   expect(countries["CN"]).toMatch("China");
+   expect(countries["GB"]).toMatch("United Kingdom");
+   expect(countries["DE"]).toMatch("Germany");
+   expect(countries["ZW"]).toMatch("Zimbabwe");
+
+  });
+
   // it(`Should retain focus inside the modal content element when it is
   //    displayed`, () => {
   //

@@ -1,47 +1,263 @@
+/**
+ * @name AG Title
+ * @description A title element.
+ * @markup
+ * <h1 class="ag-title">Title content</h1>
+ */
 .ag-title {
 
 }
 
+/**
+ * @name AG Intro
+ * @description The paragraph to explain the purpose of the age gate and any other
+ * relevant info.
+ * @markup
+ * <p class="ag-intro">For legal reasons, we need to verify that you are of legal age.</p>
+ */
 .ag-intro {
-
+  margin-bottom: 0;
+  line-height: 1.5;
 }
 
+/**
+ * @name AG Image
+ * @description An image that may convey additional branding or styles.
+ * @markup
+ * <img class="ag-image" src="[image source]" alt="" />
+ */
 .ag-image {
+  display: block;
+  height: auto;
+  margin: 0 auto;
+  max-width: 25%;
+}
+
+/**
+ * @name AG Radio Error
+ * @description An error message displayed above the radio inputs when the choice
+ * is incorrect.
+ * @markup
+ * <p class="ag-radio-error">You must be of legal age in order to enter this site.</p>
+ */
+.ag-radio-error {
+  color: red;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+/**
+ * @name AG Radio Yes
+ * @description A hidden radio input to signify that the user *is* above legal
+ * age when selected
+ * @markup
+ * <input class="ag-radio-yes" id="ag-radio-yes" name="radio" type="radio" />
+ */
+.ag-radio-yes {
+  display: none;
+}
+
+/**
+ * @name AG Radio Yes Label
+ * @description The button used to select the 'yes' option from the radio buttons.
+ * @markup
+ * <label class="ag-radio-yes-label" for="ag-radio-yes" id="ag-radio-yes-label">Yes, I am of legal age</h1>
+ */
+.ag-radio-yes-label {
+  border: 1px solid #333;
+  border-radius: 0.3em;
+  display: inline-block;
+  padding: 1em;
+}
+
+/**
+ * @name AG Radio No
+ * @description A hidden radio input to signify that the user is *not* above
+ * legal age when selected.
+ * @markup
+ * <input class="ag-radio-no" id="ag-radio-no" name="radio" type="radio" />
+ */
+.ag-radio-no {
+  display: none;
+}
+
+/**
+ * @name AG Radio No Label
+ * @description The button used to select the 'no' option from the radio buttons.
+ * @markup
+ * <label class="ag-radio-no-label" for="ag-radio-no" id="ag-radio-no-label">No, I am not of legal age</h1>
+ */
+.ag-radio-no-label {
+  border: 1px solid #333;
+  border-radius: 0.3em;
+  display: inline-block;
+  padding: 1em;
+}
+
+/**
+ * @name AG Date of Birth Error
+ * @description An error message displayed above the date of birth inputs when
+ * the input is invalid or does not meet the legal age.
+ * @markup
+ * <p class="ag-dob-error">You must be of legal age in order to enter this site.</p>
+ */
+.ag-dob-error {
+  color: red;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+/**
+ * @name AG Date of Birth Day Label
+ * @description A label for the day input.
+ * @markup
+ * <label class="ag-dob-day-label" for="ag-dob-day" id="ag-dob-day-label">Day:</label>
+ */
+.ag-dob-day-label {
 
 }
 
-.ag-checkbox-container {
+/**
+ * @name AG Date of Birth Day Input
+ * @description The day text input.
+ * @markup
+ * <input class="ag-dob-day" id="ag-dob-day" name="day" placeholder="Day" />
+ */
+.ag-dob-day {
 
 }
 
-.ag-day-container {
+/**
+ * @name AG Date of Birth Month Label
+ * @description A label for the month input.
+ * @markup
+ * <label class="ag-dob-month-label" for="ag-dob-month" id="ag-dob-month-label">Month:</label>
+ */
+.ag-dob-month-label {
 
 }
 
-.ag-month-container {
+/**
+ * @name AG Date of Birth Month Input
+ * @description The month text input.
+ * @markup
+ * <input class="ag-dob-month" id="ag-dob-month" name="month" placeholder="Month" />
+ */
+.ag-dob-month {
 
 }
 
-.ag-year-container {
+/**
+ * @name AG Date of Birth Year Label
+ * @description A label for the year input.
+ * @markup
+ * <label class="ag-dob-year-label" for="ag-dob-year" id="ag-dob-year-label">Year:</label>
+ */
+.ag-dob-year-label {
 
 }
 
-.ag-radio-container {
+/**
+ * @name AG Date of Birth Year Input
+ * @description The year text input.
+ * @markup
+ * <input class="ag-dob-year" id="ag-dob-year" name="year" placeholder="Year" />
+ */
+.ag-dob-year {
 
 }
 
-.ag-country-container {
+/**
+ * @name AG Country Error
+ * @description An error message displayed above the country input when
+ * the input is invalid.
+ * @markup
+ * <p class="ag-country-error">Sorry, we can't allow access from that country.</p>
+ */
+.ag-country-error {
+  color: red;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+/**
+ * @name AG Country Label
+ * @description A label displayed above the country input.
+ * @markup
+ * <label class="ag-country-label" for="ag-country" id="ag-country-label">Country:</label>
+ */
+.ag-country-label {
 
 }
 
-.ag-language-container {
+/**
+ * @name AG Country Input
+ * @description A select input for selecting a country from a list.
+ * @markup
+ * <select class="ag-country" id="ag-country">
+ *   <option value="A">Country A</option>
+ *   <option value="B">Country B</option>
+ *   <option value="C">Country C</option>
+ * </select>
+ */
+.ag-country {
 
 }
 
-.ag-button-container {
+/**
+ * @name AG Language Error
+ * @description An error message displayed above the language input when
+ * the input is invalid.
+ * @markup
+ * <p class="ag-language-error">Sorry, that language is not supported.</p>
+ */
+.ag-language-error {
+  color: red;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+/**
+ * @name AG Language Label
+ * @description A label displayed above the language input.
+ * @markup
+ * <label class="ag-language-label" for="ag-language" id="ag-language-label">Language:</label>
+ */
+.ag-language-label {
 
 }
 
+/**
+ * @name AG Language Input
+ * @description A select input for selecting a language from a list.
+ * @markup
+ * <select class="ag-language" id="ag-language">
+ *   <option value="A">Language A</option>
+ *   <option value="B">Language B</option>
+ *   <option value="C">Language C</option>
+ * </select>
+ */
+.ag-language {
+
+}
+
+/**
+ * @name AG Button
+ * @description The button for submitting the age gate form.
+ * @markup
+ * <button class="ag-button" id="ag-button">Let me in</button>
+ */
+.ag-button {
+
+}
+
+/**
+ * @name AG Disclaimer
+ * @description The small print at the bottom of the age gate for showing
+ * additional legal info.
+ * @markup
+ * <p class="ag-disclaimer" id="ag-disclaimer">Some additional legal info...</p>
+ */
 .ag-disclaimer {
 
 }

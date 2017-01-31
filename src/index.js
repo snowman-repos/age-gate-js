@@ -109,7 +109,7 @@ export default class AgeGate {
     }
 
     // Now add content to the modal
-    this.el.content = this.el.modal.generateContents(this.config.contents);
+    // this.el.content = this.el.modal.generateContents(this.config.contents);
 
     // TODO: Assess whether the modal should be shown
     // TODO: Add event listeners

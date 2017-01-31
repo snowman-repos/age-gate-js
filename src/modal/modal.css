@@ -114,7 +114,7 @@
  */
 .ag-modal-content-row {
   display: flex;
-  margin-bottom: 0.75em;
+  margin-bottom: 1em;
   position: relative;
 }
 
@@ -127,4 +127,18 @@
 .ag-modal-content-column {
   display: block;
   position: relative;
+}
+
+/**
+ * @name AG Checkbox Container
+ * @description The container for a checkbox label that contains the input and
+ * a span.
+ * @markup
+ * <div class="ag-checkbox-container" for="checkbox">
+ *   <input id="checkbox" name="checkbox" type="checkbox" />
+ *   <span>Check this!</span>
+ * </div>
+ */
+.ag-checkbox-container {
+
 }
