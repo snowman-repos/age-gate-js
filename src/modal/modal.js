@@ -462,7 +462,7 @@ export default class Modal {
 
     let el = {
       id: "ag-disclaimer",
-      tagName: "div",
+      tagName: "p",
       content: config.content || "Disclaimer text",
       classes: config.classes || {},
       attributes: config.attributes || {}

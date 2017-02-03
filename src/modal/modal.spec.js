@@ -1867,21 +1867,77 @@ describe("Modal", () => {
 
   });
 
-  // it("Should create a disclaimer element with default settings", () => {
-  //
-  //   let disclaimer = modal.generateDisclaimer();
-  //
-  // });
-  //
-  // it("Should create a disclaimer element with custom settings", () => {
-  //
-  //   let disclaimer = modal.generateDisclaimer({});
-  //
-  // });
-  //
-  // it("Should create the elements in the correct order", () => {
-  //
-  // });
+  it("Should create a disclaimer element with default settings", () => {
+
+    let disclaimer = modal.generateDisclaimer();
+
+    expect(disclaimer.className.indexOf("ag-modal-content-row")).not.toBe(-1);
+    expect(disclaimer.querySelectorAll("p").length).not.toBe(0);
+    expect(disclaimer.querySelectorAll("p")[0].id).toMatch("ag-disclaimer");
+    expect(disclaimer.querySelectorAll("p")[0].className.indexOf("ag-disclaimer")).not.toBe(-1);
+    expect(disclaimer.querySelectorAll("p")[0].innerHTML).toMatch("Disclaimer text");
+
+  });
+
+  it("Should create a disclaimer element with custom settings", () => {
+
+    let disclaimer = modal.generateDisclaimer({
+      id: "dummyId",
+      tagName: "random",
+      content: "This is some test content",
+      classes: [
+        "testClassA",
+        "testClassB"
+      ],
+      attributes: {
+        testAttributeA: "testValueA",
+        testAttributeB: "testValueB"
+      }
+    });
+
+    expect(disclaimer.className.indexOf("ag-modal-content-row")).not.toBe(-1);
+    expect(disclaimer.querySelectorAll("p").length).not.toBe(0);
+    expect(disclaimer.querySelectorAll("random").length).toBe(0);
+
+    expect(disclaimer.querySelectorAll("p")[0].id).toMatch("ag-disclaimer");
+    expect(disclaimer.querySelectorAll("p")[0].className.indexOf("ag-disclaimer")).not.toBe(-1);
+    expect(disclaimer.querySelectorAll("p")[0].innerHTML).toMatch("This is some test content");
+    expect(disclaimer.querySelectorAll("p")[0].className.indexOf("testClassA")).not.toBe(-1);
+    expect(disclaimer.querySelectorAll("p")[0].className.indexOf("testClassB")).not.toBe(-1);
+    expect(disclaimer.querySelectorAll("p")[0].getAttribute("testAttributeA")).toMatch("testValueA");
+    expect(disclaimer.querySelectorAll("p")[0].getAttribute("testAttributeB")).toMatch("testValueB");
+
+  });
+
+  it("Should create the elements in the correct order", () => {
+
+    let contents = modal.generateContents({
+      title: {},
+      intro: {},
+      image: {},
+      radio: {},
+      checkboxes: [{}],
+      button: {},
+      disclaimer: {}
+    });
+
+    expect(contents.children[0].children[0].id).toMatch("ag-title");
+    expect(contents.children[contents.children.length - 1].children[0].id).toMatch("ag-disclaimer");
+
+    contents = modal.generateContents({
+      disclaimer: {},
+      button: {},
+      checkboxes: [{}],
+      image: {},
+      radio: {},
+      intro: {},
+      title: {}
+    });
+
+    expect(contents.children[0].children[0].id).toMatch("ag-title");
+    expect(contents.children[contents.children.length - 1].children[0].id).toMatch("ag-disclaimer");
+
+  });
 
   it("Should generate a select list", () => {
 
