@@ -267,6 +267,8 @@ export default class Modal {
 
     let configuration = config || {};
 
+    this.el.mainElements.content.innerHTML = "";
+
     if(configuration.title) {
       this.el.mainElements.content.appendChild(this.generateTitle(configuration.title));
     }
@@ -304,6 +306,8 @@ export default class Modal {
     if(configuration.disclaimer) {
       this.el.mainElements.content.appendChild(this.generateDisclaimer(configuration.disclaimer));
     }
+
+    this.el.mainElements.content = this.setTabIndices(this.el.mainElements.content);
 
     return(this.el.mainElements.content);
 
@@ -395,8 +399,8 @@ export default class Modal {
     config.year = config.year || {};
 
     container.appendChild(this.generateDay(config.day));
-    container.appendChild(this.generateDay(config.month));
-    container.appendChild(this.generateDay(config.year));
+    container.appendChild(this.generateMonth(config.month));
+    container.appendChild(this.generateYear(config.year));
 
     return container;
 
@@ -1200,7 +1204,7 @@ export default class Modal {
 
   /**
    * Save a reference to any currently focused element and give focus to the
-   * modal content
+   * modal content.
    * @return {boolean}
    */
   setFocus() {
@@ -1209,6 +1213,28 @@ export default class Modal {
     this.el.mainElements.content.focus();
 
     return true;
+
+  }
+
+  /**
+   * Find all focusable elements inside the modal content and assign sequential
+   * tab index values.
+   * @param {object} The modal contents.
+   * @return {object} The modal contents with tab indices assigned.
+   */
+  setTabIndices(contents) {
+
+    let tabindex = 1;
+    let elements = contents.querySelectorAll("input, button");
+
+    for(let i = 0; i < elements.length; i++) {
+
+      elements[i].setAttribute("tabindex", tabindex);
+      tabindex++;
+
+    }
+
+    return contents;
 
   }
 

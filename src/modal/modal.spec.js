@@ -331,6 +331,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/43
   it("Should be able to show the modal", () => {
 
     expect(body.className.indexOf("is-locked")).toEqual(-1);
@@ -349,6 +350,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/43
   it("Should be able to hide the modal", () => {
 
     modal.show();
@@ -393,6 +395,9 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/5
+  // https://github.com/darryl-snow/age-gate-js/issues/6
+  // https://github.com/darryl-snow/age-gate-js/issues/7
   it(`Should be able to toggle the aria-hidden attribute on the curtain,
      dialog, and content elements`, () => {
 
@@ -568,6 +573,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/7
   it("Should create intro, radio, and button elements by default", () => {
 
     // let modalContent = modal.generateContents();
@@ -578,6 +584,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/7
   it("Should generate a container (row) object", () => {
 
     let container = modal.generateContainer();
@@ -586,6 +593,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/7
   it("Should generate a sub container (column) object", () => {
 
     let subContainer = modal.generateSubContainer();
@@ -594,6 +602,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/8
   it("Should create a title element with default settings", () => {
 
     let title = modal.generateTitle();
@@ -606,6 +615,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/8
   it("Should create a title element with custom settings", () => {
 
     let title = modal.generateTitle({
@@ -635,6 +645,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/9
   it("Should create a intro element with default settings", () => {
 
     let intro = modal.generateIntro();
@@ -647,6 +658,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/9
   it("Should create a intro element with custom settings", () => {
 
     let intro = modal.generateIntro({
@@ -676,6 +688,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/10
   it("Should create a image element with default settings", () => {
 
     let image = modal.generateImage();
@@ -690,6 +703,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/10
   it("Should create a image element with custom settings", () => {
 
     let image = modal.generateImage({
@@ -723,6 +737,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/12
   it("Should create a radio element with default settings", () => {
 
     let radio = modal.generateRadio();
@@ -769,6 +784,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/12
   it("Should create a radio element with custom settings", () => {
 
     let radio = modal.generateRadio({
@@ -910,6 +926,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/13
   it("Should create a date of birth input element with default settings", () => {
 
     let dateOfBirth = modal.generateDateOfBirth();
@@ -924,6 +941,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/13
   it("Should create a date of birth input element with custom settings", () => {
 
     let dateOfBirth = modal.generateDateOfBirth({
@@ -960,6 +978,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/14
   it("Should create a day input element with default settings", () => {
 
     let day = modal.generateDay();
@@ -982,6 +1001,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/14
   it("Should create a day input element with custom settings", () => {
 
     let day = modal.generateDay({
@@ -1042,6 +1062,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/15
   it("Should create a month input element with default settings", () => {
 
     let month = modal.generateMonth();
@@ -1064,6 +1085,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/15
   it("Should create a month input element with custom settings", () => {
 
     let month = modal.generateMonth({
@@ -1124,6 +1146,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/16
   it("Should create a year input element with default settings", () => {
 
     let year = modal.generateYear();
@@ -1146,6 +1169,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/16
   it("Should create a year input element with custom settings", () => {
 
     let year = modal.generateYear({
@@ -1206,6 +1230,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/11
   it("Should create a single checkbox element with default settings", () => {
 
     let checkbox = modal.generateCheckbox(
@@ -1234,6 +1259,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/11
   it("Should create a single checkbox element with custom settings", () => {
 
     let checkbox = modal.generateCheckbox(
@@ -1315,6 +1341,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/11
   it("Should create multiple checkbox elements with default settings", () => {
 
     let checkboxes = modal.generateCheckboxes([
@@ -1388,6 +1415,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/11
   it("Should create multiple checkbox elements with custom settings", () => {
 
     let checkboxes = modal.generateCheckboxes([
@@ -1617,6 +1645,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/17
   it("Should create a country element with default settings", () => {
 
     let country = modal.generateCountry();
@@ -1642,6 +1671,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/17
   it("Should create a country element with custom settings", () => {
 
     let country = modal.generateCountry({
@@ -1720,6 +1750,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/18
   it("Should create a language element with default settings", () => {
 
     let language = modal.generateLanguage();
@@ -1745,6 +1776,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/18
   it("Should create a language element with custom settings", () => {
 
     let language = modal.generateLanguage({
@@ -1823,6 +1855,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/19
   it("Should create a button element with default settings", () => {
 
     let button = modal.generateButton();
@@ -1836,6 +1869,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/19
   it("Should create a button element with custom settings", () => {
 
     let button = modal.generateButton({
@@ -1867,6 +1901,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/20
   it("Should create a disclaimer element with default settings", () => {
 
     let disclaimer = modal.generateDisclaimer();
@@ -1879,6 +1914,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/20
   it("Should create a disclaimer element with custom settings", () => {
 
     let disclaimer = modal.generateDisclaimer({
@@ -1909,6 +1945,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/7
   it("Should create the elements in the correct order", () => {
 
     let contents = modal.generateContents({
@@ -1939,6 +1976,8 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/17
+  // https://github.com/darryl-snow/age-gate-js/issues/18
   it("Should generate a select list", () => {
 
     let list = {
@@ -1956,6 +1995,7 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/17
   it("Should get a list of all countries (in English)", () => {
 
    let countries = modal.getCountryList();
@@ -1969,14 +2009,50 @@ describe("Modal", () => {
 
   });
 
+  // https://github.com/darryl-snow/age-gate-js/issues/7
   // it(`Should retain focus inside the modal content element when it is
   //    displayed`, () => {
   //
   // });
-  //
-  // it(`Should assign sequential tab index values to all focusable elements inside
-  //    the modal content element`, () => {
-  //
-  // });
+
+  // https://github.com/darryl-snow/age-gate-js/issues/7
+  it(`Should assign sequential tab index values to all focusable elements inside
+     the modal content element`, () => {
+
+    let contents = modal.generateContents({
+      title: {},
+      intro: {},
+      image: {},
+      radio: {},
+      checkboxes: [{}, {}],
+      button: {},
+      disclaimer: {}
+    });
+
+    expect(contents.querySelectorAll("#ag-radio-yes")[0].getAttribute("tabindex")).toMatch("1");
+    expect(contents.querySelectorAll("#ag-radio-no")[0].getAttribute("tabindex")).toMatch("2");
+    expect(contents.querySelectorAll("#ag-checkbox-0")[0].getAttribute("tabindex")).toMatch("3");
+    expect(contents.querySelectorAll("#ag-checkbox-1")[0].getAttribute("tabindex")).toMatch("4");
+    expect(contents.querySelectorAll("#ag-button")[0].getAttribute("tabindex")).toMatch("5");
+
+    contents = modal.generateContents({
+      title: {},
+      intro: {},
+      image: {},
+      dateOfBirth: {
+        day: {},
+        month: {},
+        year: {}
+      },
+      button: {},
+      disclaimer: {}
+    });
+
+    expect(contents.querySelectorAll("#ag-dob-day")[0].getAttribute("tabindex")).toMatch("1");
+    expect(contents.querySelectorAll("#ag-dob-month")[0].getAttribute("tabindex")).toMatch("2");
+    expect(contents.querySelectorAll("#ag-dob-year")[0].getAttribute("tabindex")).toMatch("3");
+    expect(contents.querySelectorAll("#ag-button")[0].getAttribute("tabindex")).toMatch("4");
+
+  });
 
 });
