@@ -57,8 +57,9 @@ export default class ModalContent {
     }
 
     // optional classes
-    if(Object.keys(config.classes).length)
+    if(Object.keys(config.classes).length) {
       el.className += " " + config.classes.join(" ");
+    }
 
     // optional content
     el.innerHTML = config.content;

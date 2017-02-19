@@ -1,5 +1,20 @@
 import AgeGate from "./index";
 
+let clearCookies = function() {
+
+  let cookies = document.cookie.split(";");
+
+  for(let i = 0; i < cookies.length; i++) {
+
+    let cookie = cookies[i];
+    let pos = cookie.indexOf("=");
+    let name = pos > -1 ? cookie.substr(0, pos) : cookie;
+    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+
+  }
+
+}
+
 describe("Age Gate", () => {
 
   let ageGate = null;
@@ -13,17 +28,11 @@ describe("Age Gate", () => {
 
   });
 
-  // // Setup a fresh age gate before each test
-  // beforeEach(() => {
-  //
-  //   ageGate = new AgeGate();
-  //
-  // });
-
   // Reset the modal after each test
   afterEach(() => {
 
     document.body.innerHTML = "";
+    clearCookies();
     ageGate = null;
 
   });
@@ -83,58 +92,6 @@ describe("Age Gate", () => {
 
   });
 
-  // https://github.com/darryl-snow/age-gate-js/issues/8
-  it(`Should be able to configure whether the title will be shown on the age
-     gate`, () => {
-
-    let title = {};
-
-    ageGate = new AgeGate();
-
-    // The title is not mandatory
-    expect(ageGate.config.contents.title).toBe(undefined);
-
-    ageGate = new AgeGate({
-      contents: {
-        title: title
-      }
-    });
-
-    expect(ageGate.config.contents.title).toBe(title);
-
-  });
-
-  // https://github.com/darryl-snow/age-gate-js/issues/9
-  it("Should always show the intro on the age gate", () => {
-
-    ageGate = new AgeGate();
-
-    // The title is not mandatory
-    expect(typeof(ageGate.config.contents.intro)).toBe("object");
-
-  });
-
-  // https://github.com/darryl-snow/age-gate-js/issues/10
-  it(`Should be able to configure whether an image will be shown on
-     the age gate`, () => {
-
-    let image = {};
-
-    ageGate = new AgeGate();
-
-    // Checkboxes are not mandatory
-    expect(ageGate.config.contents.image).toBe(undefined);
-
-    ageGate = new AgeGate({
-      contents: {
-        image: image
-      }
-    });
-
-    expect(ageGate.config.contents.image).toBe(image);
-
-  });
-
   // https://github.com/darryl-snow/age-gate-js/issues/12
   // https://github.com/darryl-snow/age-gate-js/issues/13
   it(`Should be able to configure whether the radio or the date of birth input
@@ -155,7 +112,7 @@ describe("Age Gate", () => {
 
   });
 
-  //
+  // https://github.com/darryl-snow/age-gate-js/issues/36
   it(`Should be able to configure whether the age gate data will be saved to a
      cookie`, () => {
 
@@ -174,120 +131,115 @@ describe("Age Gate", () => {
 
   });
 
-  // https://github.com/darryl-snow/age-gate-js/issues/12
-  // https://github.com/darryl-snow/age-gate-js/issues/13
-  it(`Should be able to configure always to show either the date of birth input
-     or the radio on the age gate`, () => {
+  // https://github.com/darryl-snow/age-gate-js/issues/29
+  it("Should be able to save an age gate cookie", () => {
 
     ageGate = new AgeGate();
 
-    // Show radio by default
-    expect(typeof(ageGate.config.contents.radio)).toBe("object");
-    expect(ageGate.config.contents.dateOfBirth).toBe(undefined);
+    let testData = {
+      testKey: "testValue"
+    };
 
-    ageGate = new AgeGate({
-      rules: {
-        dateOfBirth: true
-      }
-    });
+    ageGate.saveCookie(testData);
 
-    // Show radio by default
-    expect(typeof(ageGate.config.contents.dateOfBirth)).toBe("object");
-    expect(ageGate.config.contents.radio).toBe(undefined);
+    expect(document.cookie.indexOf("age-gate")).not.toBe(-1);
+    expect(document.cookie.indexOf(JSON.stringify(testData))).not.toBe(-1);
 
   });
 
-  // https://github.com/darryl-snow/age-gate-js/issues/11
-  it(`Should be able to configure whether any checkboxes will be shown on
-     the age gate`, () => {
-
-    let checkboxes = {};
+  // https://github.com/darryl-snow/age-gate-js/issues/28
+  it("Should be able to read an age gate cookie", () => {
 
     ageGate = new AgeGate();
 
-    // Checkboxes are not mandatory
-    expect(ageGate.config.contents.checkboxes).toBe(undefined);
+    let testData = {
+      testKey: "testValue"
+    };
 
-    ageGate = new AgeGate({
-      contents: {
-        checkboxes: checkboxes
-      }
-    });
+    document.cookie = "age-gate=" + JSON.stringify(testData);
 
-    expect(ageGate.config.contents.checkboxes).toBe(checkboxes);
+    let returnData = ageGate.readCookie();
+
+    expect(typeof(returnData)).toBe("object");
+    expect(returnData.testKey).toMatch("testValue");
 
   });
 
-  // https://github.com/darryl-snow/age-gate-js/issues/17
-  it(`Should be able to configure whether the country input will be shown on
-     the age gate`, () => {
-
-    let country = {};
+  // https://github.com/darryl-snow/age-gate-js/issues/28
+  // https://github.com/darryl-snow/age-gate-js/issues/29
+  it("Should be able to clear an age gate cookie", () => {
 
     ageGate = new AgeGate();
 
-    // The country input is not mandatory
-    expect(ageGate.config.contents.country).toBe(undefined);
+    let testData = {
+      testKey: "testValue"
+    };
 
-    ageGate = new AgeGate({
-      contents: {
-        country: country
-      }
-    });
+    document.cookie = "age-gate=" + JSON.stringify(testData);
 
-    expect(ageGate.config.contents.country).toBe(country);
+    ageGate.clearCookie();
+
+    expect(document.cookie.indexOf("age-gate")).toBe(-1);
 
   });
 
-  // https://github.com/darryl-snow/age-gate-js/issues/18
-  it(`Should be able to configure whether the language input will be shown on
-     the age gate`, () => {
+  // https://github.com/darryl-snow/age-gate-js/issues/36
+  it(`Should be able to configure the name and expiry date of the age gate
+     cookie`, () => {
 
-    let language = {};
+    let yesterday = new Date(new Date() - (1000 * 60 * 60 * 24));
+    let tomorrow = new Date(new Date() + (1000 * 60 * 60 * 24));
 
-    ageGate = new AgeGate();
-
-    // The language input is not mandatory
-    expect(ageGate.config.contents.language).toBe(undefined);
+    // TODO: find a way to test the timing of the cookie that's been set,
+    // given that you can't set a cookie with an expiry date in the past
+    // ageGate = new AgeGate({
+    //   cookie: {
+    //     name: "testName1",
+    //     expiry: yesterday.toUTCString()
+    //   }
+    // });
+    //
+    // ageGate.saveCookie({});
+    //
+    // expect(document.cookie.indexOf("testName1")).toBe(-1);
+    //
+    // clearCookies();
 
     ageGate = new AgeGate({
-      contents: {
-        language: language
+      cookie: {
+        name: "testName2",
+        expiry: tomorrow.toUTCString()
       }
     });
 
-    expect(ageGate.config.contents.language).toBe(language);
+    ageGate.saveCookie({});
+
+    expect(document.cookie.indexOf("testName2")).not.toBe(-1);
 
   });
 
-  // https://github.com/darryl-snow/age-gate-js/issues/19
-  it("Should always show the button on the age gate", () => {
+  // https://github.com/darryl-snow/age-gate-js/issues/28
+  // https://github.com/darryl-snow/age-gate-js/issues/29
+  it(`Should be able to determine whether to show the age gate based on the
+     cookie value`, () => {
 
     ageGate = new AgeGate();
 
-    // The title is not mandatory
-    expect(typeof(ageGate.config.contents.button)).toBe("object");
+    let testData = {
+      passed: true
+    };
 
-  });
+    ageGate.saveCookie(testData);
 
-  // https://github.com/darryl-snow/age-gate-js/issues/20
-  it(`Should be able to configure whether the disclaimer will be shown on
-     the age gate`, () => {
+    expect(ageGate.shouldShowAgeGate()).toBe(false);
 
-    let disclaimer = {};
+    testData = {
+      passed: false
+    };
 
-    ageGate = new AgeGate();
+    ageGate.saveCookie(testData);
 
-    // The disclaimer is not mandatory
-    expect(ageGate.config.contents.disclaimer).toBe(undefined);
-
-    ageGate = new AgeGate({
-      contents: {
-        disclaimer: disclaimer
-      }
-    });
-
-    expect(ageGate.config.contents.disclaimer).toBe(disclaimer);
+    expect(ageGate.shouldShowAgeGate()).toBe(true);
 
   });
 

@@ -11,6 +11,7 @@ export default class AgeGate {
 
     // Setup config options
     config = config || {};
+    config.cookie = config.cookie || {};
     config.contents = config.contents || {};
     config.rules = config.rules || {};
     config.wrapper = config.wrapper || null;
@@ -19,6 +20,10 @@ export default class AgeGate {
     // that may not have been supplied
     config.rules = this.getRulesConfiguration(config.rules);
     config.contents = this.getContentsConfiguration(config.contents, config.rules);
+
+    if(config.rules.saveToCookie) {
+      config.cookie = this.getCookieConfiguration(config.cookie);
+    }
 
     // Save a reference to the configuration
     this.config = config;
@@ -36,56 +41,14 @@ export default class AgeGate {
   }
 
   /**
-   * Creates the default configuration for the mandatory button element.
-   * @return {object}
+   * Removes the Age Gate cookie.
+   * @return {boolean}
    */
-  createButton() {
+  clearCookie() {
 
-    return {
-      id: "ag-button",
-      tagName: "button",
-      content: "Let me in"
-    }
+    document.cookie = this.config.cookie.name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 
-  }
-
-  /**
-   * Creates the default configuration for the mandatory date of birth element.
-   * @return {object}
-   */
-  createDateOfBirth() {
-
-    return {
-      id: "ag-date-of-birth",
-      tagName: "div",
-    }
-
-  }
-
-  /**
-   * Creates the default configuration for the mandatory intro element.
-   * @return {object}
-   */
-  createIntro() {
-
-    return {
-      id: "ag-intro",
-      tagName: "p",
-      content: "For legal reasons, we need to confirm that you are of legal age before we can let you into our site."
-    }
-
-  }
-
-  /**
-   * Creates the default configuration for the mandatory radio element.
-   * @return {object}
-   */
-  createRadio() {
-
-    return {
-      id: "ag-radio",
-      tagName: "div"
-    }
+    return true;
 
   }
 
@@ -109,12 +72,35 @@ export default class AgeGate {
     }
 
     // Now add content to the modal
-    // this.el.content = this.el.modal.generateContents(this.config.contents);
+    this.el.content = this.el.modal.generateContents(this.config.contents);
 
-    // TODO: Assess whether the modal should be shown
+    // Show the Age Gate if the cookie is missing or invalid
+    if(this.shouldShowAgeGate()) {
+      this.el.modal.show();
+    }
+
     // TODO: Add event listeners
 
     return true;
+
+  }
+
+  /**
+   * Cleans up the configuration object for the age gate cookie and sets default
+   * values if no configuration was provided.
+   * @param {object} The cookie configuration.
+   * @return {object}
+   */
+  getCookieConfiguration(config) {
+
+    config = config || {};
+
+    let configuration = {
+      name: config.name || "age-gate",
+      expires: config.expires || ""
+    };
+
+    return configuration;
 
   }
 
@@ -127,22 +113,10 @@ export default class AgeGate {
    * @param {object} The ruleset that may pertain to the content shown on the age gate.
    * @return {object} The final configuration for the age gate content.
    */
-  getContentsConfiguration(config, rules) {
+  getContentsConfiguration(config) {
 
     config = this.trimUnpermittedContent(config);
     config = this.trimEmptyContent(config);
-
-    // The title is mandatory
-    config.intro = config.intro || this.createIntro();
-
-    if(rules.dateOfBirth) {
-      config.dateOfBirth = config.dateOfBirth || this.createDateOfBirth();
-    } else {
-      config.radio = config.radio || this.createRadio();
-    }
-
-    // The button is mandatory
-    config.button = config.button || this.createButton();
 
     return config;
 
@@ -170,6 +144,66 @@ export default class AgeGate {
     }
 
     return config;
+
+  }
+
+  /**
+   * Get the value of the age gate cookie.
+   * @return {object}
+   */
+  readCookie() {
+
+    let name = this.config.cookie.name + "=";
+	  let allCookies = document.cookie.split(';');
+
+    for(let i = 0; i < allCookies.length; i++) {
+
+      let cookie = allCookies[i];
+
+      while(cookie.charAt(0) === " ") {
+        cookie = cookie.substring(1, cookie.length);
+      }
+
+      if(cookie.indexOf(name) === 0) {
+
+        let value = cookie.substring(name.length, cookie.length);
+
+        if(value !== "") {
+          return JSON.parse(value);
+        }
+
+      }
+
+    }
+
+	  return {};
+
+  }
+
+  saveCookie(data) {
+
+    data = JSON.stringify(data);
+
+    document.cookie = this.config.cookie.name + "=" + data + ";expires=" + this.config.cookie.expires + ";path=/;max-age=31536000";
+
+    return true;
+
+  }
+
+  /**
+   * Determines whether the Age Gate should be shown based on the status of the
+   * age gate cookie.
+   * @return {boolean}
+   */
+  shouldShowAgeGate() {
+
+    let cookie = this.readCookie();
+
+    if(!!cookie) {
+      return !cookie.passed;
+    } else {
+      return true;
+    }
 
   }
 

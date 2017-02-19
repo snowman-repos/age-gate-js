@@ -3,3 +3,5 @@ node_modules
 npm-debug.log
 build
 coverage
+todo.todo
+.csslintrc_old

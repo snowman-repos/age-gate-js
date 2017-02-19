@@ -182,7 +182,7 @@ export default class Modal {
     config = config || {};
 
     let container = document.createElement("label");
-    container.classList.add(styles["agCheckboxContainer"]);
+    container.classList.add(styles.agCheckboxContainer);
     container.setAttribute("for", "ag-checkbox-" + index);
 
     config.error = config.error || {};
@@ -193,7 +193,7 @@ export default class Modal {
       content: config.error.content || "Sorry, you are required to check this checkbox.",
       classes: config.error.classes || {},
       attributes: config.error.attributes || {}
-    }
+    };
 
     container.appendChild(new ModalContent(el));
 
@@ -205,7 +205,7 @@ export default class Modal {
       content: "",
       classes: config.error.classes || {},
       attributes: config.error.attributes || {}
-    }
+    };
 
     el.attributes = config.input.attributes || {};
     el.attributes.name = "ag-checkbox-" + index;
@@ -221,7 +221,7 @@ export default class Modal {
       content: config.label.content || "Please check this",
       classes: config.label.classes || {},
       attributes: config.label.attributes || {}
-    }
+    };
 
     container.appendChild(new ModalContent(el));
 
@@ -390,7 +390,7 @@ export default class Modal {
       content: config.error.content || "Sorry, you must be of legal age to enter this site.",
       classes: config.error.classes || {},
       attributes: config.error.attributes || {}
-    }
+    };
 
     container.appendChild(new ModalContent(el));
 
@@ -470,7 +470,7 @@ export default class Modal {
       content: config.content || "Disclaimer text",
       classes: config.classes || {},
       attributes: config.attributes || {}
-    }
+    };
 
     container.appendChild(new ModalContent(el));
 
@@ -625,7 +625,7 @@ export default class Modal {
       content: this.generateSelectList(languageList),
       classes: config.input.classes || {},
       attributes: config.input.attributes || {}
-    }
+    };
 
     el.attributes.name = "ag-language";
 
@@ -743,10 +743,14 @@ export default class Modal {
 
     for(var item in list) {
 
-      let option = document.createElement("option");
-      option.setAttribute("value", item);
-      option.innerHTML = list[item];
-      select.appendChild(option);
+      if(typeof(item) === "string") {
+
+        let option = document.createElement("option");
+        option.setAttribute("value", item);
+        option.innerHTML = list[item];
+        select.appendChild(option);
+
+      }
 
     }
 

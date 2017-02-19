@@ -1,3 +1,21 @@
---errors=bulletproof-font-face,display-property-grouping,duplicate-background-images,duplicate-properties,empty-rules,floats,outline-none,font-faces,ids,import,important,known-properties,qualified-headings,regex-selectors,shorthand,star-property-hack,text-indent,underscore-property-hack,unique-headings,vendor-prefix,zero-units
---warnings=adjoining-classes,unqualified-attributes,universal-selector,compatible-vendor-prefixes,fallback-colors,font-sizes,gradients,non-link-hover,overqualified-elements
---ignore=box-model
+{
+  "adjoining-classes": false,
+  "box-sizing": false,
+  "box-model": false,
+  "compatible-vendor-prefixes": false,
+  "floats": false,
+  "font-sizes": false,
+  "gradients": false,
+  "important": false,
+  "known-properties": false,
+  "outline-none": false,
+  "qualified-headings": false,
+  "regex-selectors": false,
+  "shorthand": false,
+  "text-indent": false,
+  "unique-headings": false,
+  "universal-selector": false,
+  "unqualified-attributes": false,
+  "vendor-prefix": false,
+  "overqualified-elements": false
+}

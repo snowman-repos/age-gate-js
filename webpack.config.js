@@ -20,7 +20,7 @@ module.exports = {
     loaders: [
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract("css?modules&camelCase=dashes&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]")
+        loader: ExtractTextPlugin.extract("css?modules&camelCase=dashes&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!csslint?failOnWarning=false")
       },
       {
         test: /\.js$/,
